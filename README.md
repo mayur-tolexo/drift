@@ -42,17 +42,6 @@ Add/Kill consumer over http request on any topic.
 ```
 
 
-# Handler
-```
-handler is a function to which the cunsumer will call.
-
-FUNCTION DEFINATION:
-func(value ...interface{}) error
-
-Here PrintIT is a handler function. Define your own handler and pass it in the drift and you are ready to go.
-```
-
-
 # Example
 ```
 //printIT : function which consumer will call to execute
@@ -66,5 +55,16 @@ func main() {
   d.Start()
 }
 
+```
+
+
+# Handler
+```
+handler is a function to which the consumer will call.
+
+FUNCTION DEFINATION:
+func(value ...interface{}) error
+
+Here PrintIT is a handler function. Define your own handler and pass it in the drift and you are ready to go.
 ```
 
