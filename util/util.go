@@ -74,6 +74,9 @@ func PAddConsumer(payload model.AddConstumer) (data interface{}, err error) {
 			break
 		}
 	}
+	if err == nil {
+		data = "DONE"
+	}
 	return
 }
 
@@ -88,6 +91,5 @@ func SystemInterrupt() {
 	for _, consumer := range consumers {
 		<-consumer.StopChan
 	}
-	fmt.Println("DONE")
 	os.Exit(1)
 }
