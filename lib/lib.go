@@ -65,31 +65,12 @@ func (e *Error) Error() string {
 	return fmt.Sprintf("\nCode:\t\t[%d]\nMessage:\t[%v]\nStackTrace:\t[%v]\nDebugMsg:\t[%v]\n", e.Code, e.Msg, e.Trace, e.DebugMsg)
 }
 
-//checkMySQLError : check mysql error codes
-func checkMySQLError(msg string, code int, err error) (string, int) {
-	errMsg := err.Error()
-	if strings.Contains(errMsg, "#23505 ") == true {
-		msgCode := strings.Split(errMsg, " ")
-		msgCodeLen := len(msgCode)
-		if msgCodeLen > 1 {
-			msg = DUPLICATE_ENTRY_ERROR_MSG
-			code = DUPLICATE_ENTRY_ERROR
-		}
-	}
-	return msg, code
-}
-
 //newError : Create new *Error object
 func newError(msg string, err error, code int, debugMsg ...string) error {
 	stackDepth := conf.Int("error.stack_depth", 3)
 	funcName, fileName, line := StackTrace(stackDepth)
 	trace := fileName + " -> " + funcName + ":" + strconv.Itoa(line)
 	errStr := strings.Join(debugMsg, " ")
-
-	if err != nil {
-		msg, code = checkMySQLError(msg, code, err)
-		errStr += " " + err.Error()
-	}
 
 	return &Error{
 		Msg:      msg,
