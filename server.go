@@ -1,27 +1,26 @@
-package service
+package drift
 
 import (
 	"github.com/mayur-tolexo/drift/lib"
-	"github.com/mayur-tolexo/drift/model"
-	"github.com/mayur-tolexo/drift/util"
 	"github.com/rightjoin/aqua"
 )
 
-//Drift service
-type Drift struct {
+//DS is the Drift service
+type DS struct {
 	aqua.RestService `prefix:"drift" root:"/" version:"1"`
 	addConsumer      aqua.POST `url:"add/consumer/"`
+	drift            *Drift
 }
 
 //AddConsumer will add new consumer to the given topic
-func (*Drift) AddConsumer(req aqua.Aide) (int, interface{}) {
+func (d *DS) AddConsumer(req aqua.Aide) (int, interface{}) {
 	var (
 		data    interface{}
-		payload model.AddConstumer
+		payload AddConstumer
 		err     error
 	)
-	if payload, err = util.VAddConsumer(req); err == nil {
-		data, err = util.PAddConsumer(payload)
+	if payload, err = vAddConsumer(req); err == nil {
+		data, err = d.drift.pAddConsumer(payload)
 	}
 	return lib.BuildResponse(data, err)
 }

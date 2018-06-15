@@ -1,8 +1,7 @@
-package util
+package drift
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
 	"os"
 	"os/signal"
@@ -10,40 +9,24 @@ import (
 	"time"
 
 	"github.com/mayur-tolexo/drift/lib"
-	"github.com/mayur-tolexo/drift/model"
 	nsq "github.com/nsqio/go-nsq"
 	"github.com/rightjoin/aqua"
 )
 
-var consumers []*nsq.Consumer
-
-//TailHandler will implement the nsq handler
-type TailHandler struct {
-	TopicName string
-}
-
 //HandleMessage will define the nsq handler method
 func (th *TailHandler) HandleMessage(m *nsq.Message) error {
-	_, err := os.Stdout.Write(m.Body)
-	if err != nil {
-		log.Fatalf("ERROR: failed to write to os.Stdout - %s", err)
-	}
-	_, err = os.Stdout.WriteString("\n")
-	if err != nil {
-		log.Fatalf("ERROR: failed to write to os.Stdout - %s", err)
-	}
-	return nil
+	return th.jobHandler(string(m.Body))
 }
 
-//VAddConsumer will validate add consumer request
-func VAddConsumer(req aqua.Aide) (payload model.AddConstumer, err error) {
+//vAddConsumer will validate add consumer request
+func vAddConsumer(req aqua.Aide) (payload AddConstumer, err error) {
 	req.LoadVars()
 	err = lib.Unmarshal(req.Body, &payload)
 	return
 }
 
-//PAddConsumer will process add consumer request
-func PAddConsumer(payload model.AddConstumer) (data interface{}, err error) {
+//pAddConsumer will process add consumer request
+func (d *Drift) pAddConsumer(payload AddConstumer) (data interface{}, err error) {
 	var c *nsq.Consumer
 	config := nsq.NewConfig()
 	maxInFlight := lib.GetPriorityValue(200, payload.MaxInFlight).(int)
@@ -60,7 +43,7 @@ func PAddConsumer(payload model.AddConstumer) (data interface{}, err error) {
 
 		if c, err = nsq.NewConsumer(topic, channel, config); err == nil {
 			fmt.Println("Adding consumer for topic:", topic)
-			c.AddHandler(&TailHandler{TopicName: topic})
+			c.AddHandler(&TailHandler{topicName: topic, jobHandler: d.jobHandler})
 			if err = c.ConnectToNSQDs(payload.NsqDTCPAddrs); err != nil {
 				err = lib.BadReqError(err)
 				break
@@ -69,6 +52,7 @@ func PAddConsumer(payload model.AddConstumer) (data interface{}, err error) {
 				err = lib.BadReqError(err)
 				break
 			}
+			d.consumers = append(d.consumers, c)
 		} else {
 			err = lib.BadReqError(err)
 			break
@@ -81,14 +65,14 @@ func PAddConsumer(payload model.AddConstumer) (data interface{}, err error) {
 }
 
 //SystemInterrupt will handle system interrupt
-func SystemInterrupt() {
+func (d *Drift) SystemInterrupt() {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTSTP)
 	fmt.Println("System Exit: ", <-c)
-	for _, consumer := range consumers {
+	for _, consumer := range d.consumers {
 		consumer.Stop()
 	}
-	for _, consumer := range consumers {
+	for _, consumer := range d.consumers {
 		<-consumer.StopChan
 	}
 	os.Exit(1)

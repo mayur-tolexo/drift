@@ -1,4 +1,6 @@
-package model
+package drift
+
+import nsq "github.com/nsqio/go-nsq"
 
 //AddConstumer is the request format of add consumer
 type AddConstumer struct {
@@ -12,4 +14,19 @@ type AddConstumer struct {
 type TopicData struct {
 	Topic   string `json:"topic"`
 	Channel string `json:"channel"`
+}
+
+//TailHandler will implement the nsq handler
+type TailHandler struct {
+	topicName  string
+	jobHandler JobHandler
+}
+
+//JobHandler function which will be called
+type JobHandler func(value ...interface{}) error
+
+//Drift will have the handler function
+type Drift struct {
+	jobHandler JobHandler
+	consumers  []*nsq.Consumer
 }
