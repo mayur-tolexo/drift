@@ -7,15 +7,15 @@ import (
 	"github.com/tolexo/aero/conf"
 )
 
-//NewDrift will create the drift model
-func NewDrift(jh JobHandler) *Drift {
-	return &Drift{
+//Newdrift will create the drift model
+func Newdrift(jh JobHandler) *drift {
+	return &drift{
 		jobHandler: jh,
 	}
 }
 
 //Start will start the drift server
-func (d *Drift) Start() {
+func (d *drift) Start() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	server := aqua.NewRestServer()
 	server.AddModule("access", aqua.ModAccessLog(conf.String("drift.access", "")))

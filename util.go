@@ -14,7 +14,7 @@ import (
 )
 
 //HandleMessage will define the nsq handler method
-func (th *TailHandler) HandleMessage(m *nsq.Message) error {
+func (th *tailHandler) HandleMessage(m *nsq.Message) error {
 	return th.jobHandler(string(m.Body))
 }
 
@@ -26,7 +26,7 @@ func vAddConsumer(req aqua.Aide) (payload AddConstumer, err error) {
 }
 
 //pAddConsumer will process add consumer request
-func (d *Drift) pAddConsumer(payload AddConstumer) (data interface{}, err error) {
+func (d *drift) pAddConsumer(payload AddConstumer) (data interface{}, err error) {
 	var c *nsq.Consumer
 	config := nsq.NewConfig()
 	maxInFlight := lib.GetPriorityValue(200, payload.MaxInFlight).(int)
@@ -43,7 +43,7 @@ func (d *Drift) pAddConsumer(payload AddConstumer) (data interface{}, err error)
 
 		if c, err = nsq.NewConsumer(topic, channel, config); err == nil {
 			fmt.Println("Adding consumer for topic:", topic)
-			c.AddHandler(&TailHandler{topicName: topic, jobHandler: d.jobHandler})
+			c.AddHandler(&tailHandler{topicName: topic, jobHandler: d.jobHandler})
 			if err = c.ConnectToNSQDs(payload.NsqDTCPAddrs); err != nil {
 				err = lib.BadReqError(err)
 				break
@@ -65,7 +65,7 @@ func (d *Drift) pAddConsumer(payload AddConstumer) (data interface{}, err error)
 }
 
 //SystemInterrupt will handle system interrupt
-func (d *Drift) SystemInterrupt() {
+func (d *drift) SystemInterrupt() {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTSTP)
 	fmt.Println("System Exit: ", <-c)

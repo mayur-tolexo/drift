@@ -5,11 +5,11 @@ import (
 	"github.com/rightjoin/aqua"
 )
 
-//DS is the Drift service
+//DS is the drift service
 type DS struct {
 	aqua.RestService `prefix:"drift" root:"/" version:"1"`
 	addConsumer      aqua.POST `url:"add/consumer/"`
-	drift            *Drift
+	drift            *drift
 }
 
 //AddConsumer will add new consumer to the given topic

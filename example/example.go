@@ -12,6 +12,6 @@ func printIT(value ...interface{}) error {
 }
 
 func main() {
-	d := drift.NewDrift(printIT)
+	d := drift.Newdrift(printIT)
 	d.Start()
 }

@@ -16,8 +16,8 @@ type TopicData struct {
 	Channel string `json:"channel"`
 }
 
-//TailHandler will implement the nsq handler
-type TailHandler struct {
+//tailHandler will implement the nsq handler
+type tailHandler struct {
 	topicName  string
 	jobHandler JobHandler
 }
@@ -25,8 +25,8 @@ type TailHandler struct {
 //JobHandler function which will be called
 type JobHandler func(value ...interface{}) error
 
-//Drift will have the handler function
-type Drift struct {
+//drift will have the handler function
+type drift struct {
 	jobHandler JobHandler
 	consumers  []*nsq.Consumer
 }
