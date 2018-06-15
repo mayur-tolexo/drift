@@ -1,6 +1,5 @@
 # drift
-NSQ Consumer integration to drift your request smoothly
-Add/Kill consumer over http request on any topic.
+NSQ Consumer integration to drift your request smoothly. Add/Kill consumer over http request on any topic.
 
 ### STEPS TO INSTALL drift
 1. install [nsq](https://nsq.io/deployment/installing.html)
