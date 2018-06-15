@@ -5,9 +5,16 @@ import nsq "github.com/nsqio/go-nsq"
 //AddConstumer is the request format of add consumer
 type AddConstumer struct {
 	LookupAddr   []string    `json:"loopup_address"`
-	NsqDTCPAddrs []string    `json:"nsqd_tcp_address"`
+	NsqDTCPAddrs []string    `json:"nsqd_address"`
 	Topic        []TopicData `json:"topic_detail"`
 	MaxInFlight  int         `json:"max_in_flight"`
+}
+
+//Publish is the request format of publish request api
+type Publish struct {
+	NsqDHttpAddrs string      `json:"nsqd_address"`
+	Topic         string      `json:"topic"`
+	Data          interface{} `json:"data"`
 }
 
 //TopicData will contail the topic details

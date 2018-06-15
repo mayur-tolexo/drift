@@ -1,13 +1,16 @@
 package drift
 
 import (
+	"bytes"
 	"fmt"
 	"math/rand"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/mayur-tolexo/drift/lib"
 	nsq "github.com/nsqio/go-nsq"
 	"github.com/rightjoin/aqua"
@@ -22,6 +25,40 @@ func (th *tailHandler) HandleMessage(m *nsq.Message) error {
 func vAddConsumer(req aqua.Aide) (payload AddConstumer, err error) {
 	req.LoadVars()
 	err = lib.Unmarshal(req.Body, &payload)
+	return
+}
+
+//vProduceReq will validate produce request
+func vPublishReq(req aqua.Aide) (payload Publish, err error) {
+	req.LoadVars()
+	err = lib.Unmarshal(req.Body, &payload)
+	return
+}
+
+//pPublishReq will process the producer request
+func pPublishReq(payload Publish) (data interface{}, err error) {
+	var (
+		b    []byte
+		req  *http.Request
+		resp *http.Response
+	)
+	if b, err = jsoniter.Marshal(payload.Data); err == nil {
+		URL := fmt.Sprintf("%v/pub?topic=%v", payload.NsqDHttpAddrs, payload.Topic)
+		if req, err = http.NewRequest("POST",
+			URL, bytes.NewBuffer(b)); err == nil {
+			HTTPClient := &http.Client{}
+			if resp, err = HTTPClient.Do(req); err == nil {
+				defer resp.Body.Close()
+				data = resp.StatusCode
+			} else {
+				err = lib.BadReqError(err)
+			}
+		} else {
+			err = lib.BadReqError(err)
+		}
+	} else {
+		err = lib.BadReqError(err)
+	}
 	return
 }
 
