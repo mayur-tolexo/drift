@@ -1,5 +1,6 @@
 # drift
-NSQ integration to drift your request smoothly
+NSQ Consumer integration to drift your request smoothly
+Add/Kill consumer over http request on any topic.
 
 ### STEPS TO INSTALL drift
 1. install [nsq](https://nsq.io/deployment/installing.html)
@@ -7,7 +8,7 @@ NSQ integration to drift your request smoothly
 1. cd $GOPATH/src/github.com/mayur-tolexo/drift
 1. install [godep](https://www.github.com/tools/godep)
 1. godep restore
-1. go run main.go
+1. go run example/example.go
 1. go get github.com/nsqio/nsq
 1. [in new tab] cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqlookupd
 1. go run nsqlookupd.go
@@ -39,3 +40,31 @@ NSQ integration to drift your request smoothly
   "max_in_flight": 200
 }
 ```
+
+
+# Handler
+```
+handler is a function to which the cunsumer will call.
+
+FUNCTION DEFINATION:
+func(value ...interface{}) error
+
+Here PrintIT is a handler function. Define your own handler and pass it in the drift and you are ready to go.
+```
+
+
+# Example
+```
+//printIT : function which consumer will call to execute
+func printIT(value ...interface{}) error {
+  fmt.Println(value)
+  return nil
+}
+
+func main() {
+  d := drift.NewDrift(printIT)
+  d.Start()
+}
+
+```
+
