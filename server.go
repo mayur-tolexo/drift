@@ -6,14 +6,14 @@ import (
 )
 
 //DS is the drift service
-type DS struct {
+type ds struct {
 	aqua.RestService `prefix:"drift" root:"/" version:"1"`
 	addConsumer      aqua.POST `url:"add/consumer/"`
 	drift            *drift
 }
 
 //AddConsumer will add new consumer to the given topic
-func (d *DS) AddConsumer(req aqua.Aide) (int, interface{}) {
+func (d *ds) AddConsumer(req aqua.Aide) (int, interface{}) {
 	var (
 		data    interface{}
 		payload AddConstumer

@@ -21,7 +21,7 @@ func (d *drift) Start() {
 	server.AddModule("access", aqua.ModAccessLog(conf.String("drift.access", "")))
 	server.Modules = "access"
 	server.Port = conf.Int("drift.port", 0)
-	server.AddService(&DS{drift: d})
+	server.AddService(&ds{drift: d})
 	go d.SystemInterrupt()
 	server.Run()
 }
