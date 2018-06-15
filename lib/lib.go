@@ -2,10 +2,12 @@ package lib
 
 import (
 	"fmt"
+	"reflect"
 	"runtime"
 	"strconv"
 	"strings"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/tolexo/aero/conf"
 )
 
@@ -169,4 +171,24 @@ func BuildResponse(data interface{}, err error) (int, interface{}) {
 	httpCode, status := GetErrorHTTPCode(err)
 	out.Set(data, status, err)
 	return httpCode, out
+}
+
+//Unmarshal : unmarshal of request body and wrap error
+func Unmarshal(reqBody string, structModel interface{}) (err error) {
+	if err = jsoniter.Unmarshal([]byte(reqBody), structModel); err != nil {
+		err = UnmarshalError(err)
+	}
+	return
+}
+
+//GetPriorityValue : get the value by priority
+func GetPriorityValue(a ...interface{}) (pVal interface{}) {
+	for _, curVal := range a {
+		pVal = reflect.Zero(reflect.TypeOf(curVal)).Interface()
+		if curVal != pVal {
+			pVal = curVal
+			break
+		}
+	}
+	return
 }
