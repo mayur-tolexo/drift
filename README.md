@@ -4,6 +4,7 @@ NSQ integration to drift your request smoothly
 ### STEPS TO INSTALL drift
 1. install [nsq](https://nsq.io/deployment/installing.html)
 1. go get github.com/mayur-tolexo/drift
+1. cd $GOPATH/src/github.com/mayur-tolexo/drift
 1. install [godep](https://www.github.com/tools/godep)
 1. godep restore
 1. go run main.go
