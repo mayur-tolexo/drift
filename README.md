@@ -4,7 +4,7 @@ Add/Kill consumer over http request on any topic.
 Publish new request over http on any nsqd.  
 [DOC](godoc.org/github.com/mayur-tolexo/drift)
 
-### STEPS TO INSTALL drift
+### STEPS TO RUN drift
 1. install [nsq](https://nsq.io/deployment/installing.html)
 1. go get github.com/mayur-tolexo/drift
 1. cd $GOPATH/src/github.com/mayur-tolexo/drift
@@ -22,7 +22,8 @@ Publish new request over http on any nsqd.
 1. `[in new tab]` cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqadmin
 1. go run main.go --lookupd-http-address=127.0.0.1:4161
 1. open http://127.0.0.1:4171/ in browser
-1. `[in new tab]` curl -d 'hello world 1' 'http://127.0.0.1:4151/pub?topic=elastic'
+1. `[in new tab]` cd $GOPATH/src/github.com/mayur-tolexo/drift
+1. go run example/producer.go
 
 
 ### ADD NEW CONSUMER
