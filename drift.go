@@ -4,8 +4,6 @@ import (
 	"runtime"
 
 	"github.com/rightjoin/aqua"
-	"github.com/tolexo/aero/conf"
-	"github.com/tolexo/tachyon/lib"
 )
 
 //AddTopicHandler will add a new handler with the given topic
@@ -22,9 +20,7 @@ func (d *Drift) AddChanelHandler(topic, channel string, jobHandler JobHandler) {
 func (d *Drift) Start(port int) {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	d.Server = aqua.NewRestServer()
-	d.Server.AddModule("access", aqua.ModAccessLog(conf.String("drift.access", "")))
-	d.Server.Modules = "access"
-	d.Server.Port = lib.GetPriorityValue(port, conf.Int("drift.port", 0)).(int)
+	d.Server.Port = port
 	d.Server.AddService(&ds{drift: d})
 	go d.sysInterrupt()
 	d.Server.Run()
