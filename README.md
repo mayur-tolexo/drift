@@ -1,8 +1,11 @@
-# drift
+# drift  <img src="https://user-images.githubusercontent.com/20511920/41496418-61a22e4c-715d-11e8-9456-3ef08a2af35d.png" width="30"/>
 NSQ Producer/Consumer integration to drift your request smoothly.  
 Add/Kill consumer over http request on any topic.  
 Publish new request over http on any nsqd.  
-[DOC](godoc.org/github.com/mayur-tolexo/drift)
+[DOC](https://www.godoc.org/github.com/mayur-tolexo/drift)
+
+
+
 
 ### STEPS TO RUN drift
 1. install [nsq](https://nsq.io/deployment/installing.html)
