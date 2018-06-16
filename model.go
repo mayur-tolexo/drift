@@ -7,10 +7,10 @@ import (
 
 //AddConstumer is the request format of add consumer api
 type AddConstumer struct {
-	LookupAddr   []string    `json:"lookup_address"`
-	NsqDTCPAddrs []string    `json:"nsqd_address"`
-	Topic        []TopicData `json:"topic_detail"`
-	MaxInFlight  int         `json:"max_in_flight"`
+	LookupHTTPAddr []string    `json:"lookup_http_address"`
+	NsqDTCPAddrs   []string    `json:"nsqd_tcp_address"`
+	Topic          []TopicData `json:"topic_detail"`
+	MaxInFlight    int         `json:"max_in_flight"`
 }
 
 //KillConsumer is the request format of kill consumer api
@@ -22,7 +22,7 @@ type KillConsumer struct {
 
 //Publish is the request format of publish request api
 type Publish struct {
-	NsqDHttpAddrs string      `json:"nsqd_address"`
+	NsqDHTTPAddrs string      `json:"nsqd_http_address"`
 	Topic         string      `json:"topic"`
 	Data          interface{} `json:"data"`
 }

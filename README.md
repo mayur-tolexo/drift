@@ -34,7 +34,7 @@ Publish new request over http on any nsqd.
 *POST* localhost:1500/drift/v1/add/consumer/
 ```
 {
-  "lookup_address": [
+  "lookup_http_address": [
     "127.0.0.1:4161"
   ],
   "topic_detail": [
@@ -64,6 +64,16 @@ Publish new request over http on any nsqd.
   "topic": "elastic",
   "channel": "v2.1",
   "count":1
+}
+```
+
+### PUBLISH REQUEST
+*POST* localhost:1500/drift/v1/pub/request/
+```
+{
+  "nsqd_http_address": "http://127.0.0.1:4151",
+  "topic": "elastic",
+  "data": "This is a test over http"
 }
 ```
 

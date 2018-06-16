@@ -78,7 +78,7 @@ func pPublishReq(payload Publish) (data interface{}, err error) {
 		resp *http.Response
 	)
 	if b, err = jsoniter.Marshal(payload.Data); err == nil {
-		URL := fmt.Sprintf("%v/pub?topic=%v", payload.NsqDHttpAddrs, payload.Topic)
+		URL := fmt.Sprintf("%v/pub?topic=%v", payload.NsqDHTTPAddrs, payload.Topic)
 		if req, err = http.NewRequest("POST",
 			URL, bytes.NewBuffer(b)); err == nil {
 			HTTPClient := &http.Client{}
@@ -119,7 +119,7 @@ func (d *Drift) addConsumer(payload AddConstumer) (data interface{}, err error) 
 				err = lib.BadReqError(err)
 				break
 			}
-			if err = c.ConnectToNSQLookupds(payload.LookupAddr); err != nil {
+			if err = c.ConnectToNSQLookupds(payload.LookupHTTPAddr); err != nil {
 				err = lib.BadReqError(err)
 				break
 			}
