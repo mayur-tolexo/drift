@@ -29,3 +29,19 @@ func (d *Drift) Start(port int) {
 	go d.sysInterrupt()
 	d.Server.Run()
 }
+
+//NewPub will set the nsqd address to publish
+func (d *Drift) NewPub(nsqDHttpAddrs string) {
+	d.pubAddrs = nsqDHttpAddrs
+}
+
+//Publish will broadcast the data to the nsqd
+func (d *Drift) Publish(topic string, data interface{}) (resp interface{}, err error) {
+	payload := Publish{
+		NsqDHttpAddrs: d.pubAddrs,
+		Topic:         topic,
+		Data:          data,
+	}
+	resp, err = pPublishReq(payload)
+	return
+}

@@ -71,6 +71,7 @@ func newError(msg string, err error, code int, debugMsg ...string) error {
 	funcName, fileName, line := StackTrace(stackDepth)
 	trace := fileName + " -> " + funcName + ":" + strconv.Itoa(line)
 	errStr := strings.Join(debugMsg, " ")
+	errStr += " " + err.Error()
 
 	return &Error{
 		Msg:      msg,
@@ -99,9 +100,6 @@ func (r *Resp) Set(data interface{}, status bool, err error) {
 		r.Error = err
 	}
 	r.Status = status
-	if debugMsg := conf.Bool("error.debug_msg", false); debugMsg == false {
-		r.Error = unsetDebugMsg(r.Error)
-	}
 }
 
 //StackTrace : Get function name, file name and line no of the caller function

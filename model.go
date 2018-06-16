@@ -41,4 +41,5 @@ type Drift struct {
 	chanelHandler map[string]JobHandler
 	jobHandler    JobHandler
 	consumers     map[string][]*nsq.Consumer
+	pubAddrs      string
 }
