@@ -34,7 +34,7 @@ Publish new request over http on any nsqd.
 *POST* localhost:1500/drift/v1/add/consumer/
 ```
 {
-  "loopup_address": [
+  "lookup_address": [
     "127.0.0.1:4161"
   ],
   "topic_detail": [

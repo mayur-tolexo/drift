@@ -7,7 +7,7 @@ import (
 
 //AddConstumer is the request format of add consumer
 type AddConstumer struct {
-	LookupAddr   []string    `json:"loopup_address"`
+	LookupAddr   []string    `json:"lookup_address"`
 	NsqDTCPAddrs []string    `json:"nsqd_address"`
 	Topic        []TopicData `json:"topic_detail"`
 	MaxInFlight  int         `json:"max_in_flight"`
