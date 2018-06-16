@@ -10,7 +10,7 @@ type ds struct {
 	aqua.RestService `prefix:"drift" root:"/" version:"1"`
 	addConsumer      aqua.POST `url:"add/consumer/"`
 	publishReq       aqua.POST `url:"pub/request/"`
-	drift            *drift
+	drift            *Drift
 }
 
 //AddConsumer will add new consumer to the given topic

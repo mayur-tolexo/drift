@@ -35,8 +35,8 @@ type tailHandler struct {
 //JobHandler function which will be called
 type JobHandler func(value ...interface{}) error
 
-//drift will have the handler function
-type drift struct {
+//Drift will have the handler function
+type Drift struct {
 	Server        aqua.RestServer
 	chanelHandler map[string]JobHandler
 	jobHandler    JobHandler

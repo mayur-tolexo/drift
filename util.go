@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	jsoniter "github.com/json-iterator/go"
@@ -20,8 +23,8 @@ const (
 )
 
 //Newdrift will create the drift model
-func Newdrift(jobHandler JobHandler) *drift {
-	return &drift{
+func Newdrift(jobHandler JobHandler) *Drift {
+	return &Drift{
 		jobHandler:    jobHandler,
 		chanelHandler: make(map[string]JobHandler),
 		consumers:     make(map[string][]*nsq.Consumer),
@@ -75,7 +78,7 @@ func pPublishReq(payload Publish) (data interface{}, err error) {
 }
 
 //pAddConsumer will process add consumer request
-func (d *drift) pAddConsumer(payload AddConstumer) (data interface{}, err error) {
+func (d *Drift) pAddConsumer(payload AddConstumer) (data interface{}, err error) {
 	var c *nsq.Consumer
 	config := nsq.NewConfig()
 	config.MaxInFlight = lib.GetPriorityValue(200, payload.MaxInFlight).(int)
@@ -120,7 +123,7 @@ func getChannel(c string) (channel string) {
 	return
 }
 
-func (d *drift) getHandler(topic, channel string) (handler JobHandler) {
+func (d *Drift) getHandler(topic, channel string) (handler JobHandler) {
 	if chHandler, exists := d.chanelHandler[hash(topic, channel)]; exists {
 		handler = chHandler
 	} else if chHandler, exists := d.chanelHandler[hash(topic, allKey)]; exists {
@@ -143,4 +146,22 @@ func decrypt(h string) (topic string, channel string) {
 		channel = val[1]
 	}
 	return
+}
+
+//sysInterrupt will handle system interrupt
+func (d *Drift) sysInterrupt() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTSTP)
+	fmt.Println("System Exit: ", <-c)
+	for _, topic := range d.consumers {
+		for _, consumer := range topic {
+			consumer.Stop()
+		}
+	}
+	for _, topic := range d.consumers {
+		for _, consumer := range topic {
+			<-consumer.StopChan
+		}
+	}
+	os.Exit(1)
 }
