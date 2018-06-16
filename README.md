@@ -11,11 +11,11 @@ Publish new request over http on any nsqd.
 1. install [godep](https://www.github.com/tools/godep)
 1. godep restore
 1. go run example/consumer.go
-1. go get github.com/nsqio/nsq
+1. `[in new tab]` go get github.com/nsqio/nsq
 1. go get github.com/golang/dep/cmd/dep
 1. cd $GOPATH/src/github.com/nsqio/nsq/
 1. dep ensure
-1. `[in new tab]` cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqlookupd
+1. cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqlookupd
 1. go run nsqlookupd.go
 1. `[in new tab]` cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqd
 1. go run nsqd.go --lookupd-tcp-address=127.0.0.1:4160
@@ -24,6 +24,7 @@ Publish new request over http on any nsqd.
 1. open http://127.0.0.1:4171/ in browser
 1. `[in new tab]` cd $GOPATH/src/github.com/mayur-tolexo/drift
 1. go run example/producer.go
+1. add new consumer as given below
 
 
 ### ADD NEW CONSUMER
