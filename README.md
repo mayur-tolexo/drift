@@ -10,7 +10,7 @@ Publish new request over http on any nsqd.
 1. cd $GOPATH/src/github.com/mayur-tolexo/drift
 1. install [godep](https://www.github.com/tools/godep)
 1. godep restore
-1. go run example/example.go
+1. go run example/consumer.go
 1. go get github.com/nsqio/nsq
 1. go get github.com/golang/dep/cmd/dep
 1. cd $GOPATH/src/github.com/nsqio/nsq/
