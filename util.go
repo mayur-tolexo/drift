@@ -111,7 +111,6 @@ func (d *Drift) addConsumer(payload AddConstumer) (data interface{}, err error) 
 		if handler == nil {
 			continue
 		}
-
 		if c, err = nsq.NewConsumer(topic, channel, config); err == nil {
 			fmt.Println("Adding consumer for topic:", topic)
 			c.AddHandler(&tailHandler{topicName: topic, jobHandler: handler})
@@ -148,6 +147,8 @@ func (d *Drift) getHandler(topic, channel string) (handler JobHandler) {
 		handler = chHandler
 	} else if chHandler, exists := d.chanelHandler[hash(topic, allKey)]; exists {
 		handler = chHandler
+	} else {
+		handler = d.jobHandler
 	}
 	return
 }
