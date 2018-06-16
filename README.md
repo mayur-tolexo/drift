@@ -1,5 +1,6 @@
 # drift
 NSQ Consumer integration to drift your request smoothly. Add/Kill consumer over http request on any topic.
+[DOC](godoc.org/github.com/mayur-tolexo/drift)
 
 ### STEPS TO INSTALL drift
 1. install [nsq](https://nsq.io/deployment/installing.html)
