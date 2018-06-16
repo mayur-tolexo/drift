@@ -51,6 +51,22 @@ Publish new request over http on any nsqd.
 }
 ```
 
+### COUNT CONSUMERS OF A TOPIC ON SPECIFIC CHANNEL
+```*GET* localhost:1500/drift/v1//consumer/?topic=elastic&channel=v2.1```
+
+### COUNT ALL CONSUMERS OF A TOPIC
+```*GET* localhost:1500/drift/v1//consumer/?topic=elastic```
+
+### KILL CONSUMER
+*POST* localhost:1500/drift/v1/kill/consumer/
+```
+{
+  "topic": "elastic",
+  "channel": "v2.1",
+  "count":1
+}
+```
+
 
 # Example
 ```
