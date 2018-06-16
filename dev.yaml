@@ -1,9 +1,0 @@
-drift:
-    hostname: "http://localhost"
-    port: 1500
-    access: drift.access.log
-
-error:
-    debug_msg: true
-    stack_depth: 3
-    track_all: false
