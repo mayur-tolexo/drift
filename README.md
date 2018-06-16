@@ -9,6 +9,9 @@ NSQ Consumer integration to drift your request smoothly. Add/Kill consumer over 
 1. godep restore
 1. go run example/example.go
 1. go get github.com/nsqio/nsq
+1. go get github.com/golang/dep/cmd/dep
+1. cd $GOPATH/src/github.com/nsqio/nsq/
+1. dep ensure
 1. `[in new tab]` cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqlookupd
 1. go run nsqlookupd.go
 1. `[in new tab]` cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqd
@@ -16,7 +19,7 @@ NSQ Consumer integration to drift your request smoothly. Add/Kill consumer over 
 1. `[in new tab]` cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqadmin
 1. go run main.go --lookupd-http-address=127.0.0.1:4161
 1. open http://127.0.0.1:4171/ in browser
-1. `[in new tab]` curl -d 'hello world 1' 'http://127.0.0.1:4151/pub?topic=test'
+1. `[in new tab]` curl -d 'hello world 1' 'http://127.0.0.1:4151/pub?topic=elastic'
 
 
 ### ADD NEW CONSUMER
@@ -28,12 +31,12 @@ NSQ Consumer integration to drift your request smoothly. Add/Kill consumer over 
   ],
   "topic_detail": [
     {
-      "topic": "test",
+      "topic": "elastic",
       "channel": "v2.1"
     },
     {
-      "topic": "test",
-      "channel": "v2.1"
+      "topic": "elastic",
+      "channel": "v6.2"
     }
   ],
   "max_in_flight": 200
@@ -51,7 +54,7 @@ func printIT(value ...interface{}) error {
 
 func main() {
   d := drift.NewDrift(printIT)
-  d.Start()
+  d.Start(1500)
 }
 
 ```

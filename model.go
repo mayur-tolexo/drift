@@ -1,6 +1,9 @@
 package drift
 
-import nsq "github.com/nsqio/go-nsq"
+import (
+	nsq "github.com/nsqio/go-nsq"
+	"github.com/rightjoin/aqua"
+)
 
 //AddConstumer is the request format of add consumer
 type AddConstumer struct {
@@ -34,6 +37,8 @@ type JobHandler func(value ...interface{}) error
 
 //drift will have the handler function
 type drift struct {
-	jobHandler JobHandler
-	consumers  []*nsq.Consumer
+	Server        aqua.RestServer
+	chanelHandler map[string]JobHandler
+	jobHandler    JobHandler
+	consumers     map[string][]*nsq.Consumer
 }
