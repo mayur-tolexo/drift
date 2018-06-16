@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"strings"
 	"syscall"
 	"time"
 
@@ -60,6 +59,17 @@ func vPublishReq(req aqua.Aide) (payload Publish, err error) {
 	return
 }
 
+//vKillConsumer will validate kill consumer request
+func vKillConsumer(req aqua.Aide) (payload KillConsumer, err error) {
+	req.LoadVars()
+	if err = lib.Unmarshal(req.Body, &payload); err == nil {
+		if payload.Count <= 0 {
+			err = lib.BadReqError(err, "Invalid count")
+		}
+	}
+	return
+}
+
 //pPublishReq will process the producer request
 func pPublishReq(payload Publish) (data interface{}, err error) {
 	var (
@@ -88,7 +98,7 @@ func pPublishReq(payload Publish) (data interface{}, err error) {
 }
 
 //pAddConsumer will process add consumer request
-func (d *Drift) pAddConsumer(payload AddConstumer) (data interface{}, err error) {
+func (d *Drift) addConsumer(payload AddConstumer) (data interface{}, err error) {
 	var c *nsq.Consumer
 	config := nsq.NewConfig()
 	config.MaxInFlight = lib.GetPriorityValue(200, payload.MaxInFlight).(int)
@@ -146,18 +156,6 @@ func hash(a, b string) string {
 	return a + driftApp + b
 }
 
-func decrypt(h string) (topic string, channel string) {
-	val := strings.Split(h, driftApp)
-	vLen := len(val)
-	if vLen > 0 {
-		topic = val[0]
-	}
-	if vLen > 1 {
-		channel = val[1]
-	}
-	return
-}
-
 //sysInterrupt will handle system interrupt
 func (d *Drift) sysInterrupt() {
 	c := make(chan os.Signal, 1)
@@ -174,4 +172,33 @@ func (d *Drift) sysInterrupt() {
 		}
 	}
 	os.Exit(1)
+}
+
+//killConsumer will process kill consumer request
+func (d *Drift) killConsumer(payload KillConsumer) (data interface{}, err error) {
+	c := 0
+	key := hash(payload.Topic, payload.Channel)
+	if _, exists := d.consumers[key]; exists {
+		for _, consumer := range d.consumers[key] {
+			consumer.Stop()
+			c++
+			if c == payload.Count {
+				break
+			}
+		}
+		s := 0
+		for _, consumer := range d.consumers[key] {
+			<-consumer.StopChan
+			s++
+			if s == c {
+				d.consumers[key] = d.consumers[key][c:]
+				break
+			}
+		}
+		if c < payload.Count {
+			d.consumers[key] = nil
+		}
+	}
+	data = "DONE"
+	return
 }

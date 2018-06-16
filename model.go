@@ -5,12 +5,19 @@ import (
 	"github.com/rightjoin/aqua"
 )
 
-//AddConstumer is the request format of add consumer
+//AddConstumer is the request format of add consumer api
 type AddConstumer struct {
 	LookupAddr   []string    `json:"lookup_address"`
 	NsqDTCPAddrs []string    `json:"nsqd_address"`
 	Topic        []TopicData `json:"topic_detail"`
 	MaxInFlight  int         `json:"max_in_flight"`
+}
+
+//KillConsumer is the request format of kill consumer api
+type KillConsumer struct {
+	Topic   string `json:"topic"`
+	Channel string `json:"channel"`
+	Count   int    `json:"count"`
 }
 
 //Publish is the request format of publish request api

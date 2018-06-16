@@ -71,7 +71,9 @@ func newError(msg string, err error, code int, debugMsg ...string) error {
 	funcName, fileName, line := StackTrace(stackDepth)
 	trace := fileName + " -> " + funcName + ":" + strconv.Itoa(line)
 	errStr := strings.Join(debugMsg, " ")
-	errStr += " " + err.Error()
+	if err != nil {
+		errStr += " " + err.Error()
+	}
 
 	return &Error{
 		Msg:      msg,
@@ -83,19 +85,8 @@ func newError(msg string, err error, code int, debugMsg ...string) error {
 
 //Set Response Values
 func (r *Resp) Set(data interface{}, status bool, err error) {
-	var (
-		respData interface{}
-		msg      string
-	)
-	if val, ok := data.(MsgResp); ok {
-		respData = val.Data
-		msg = val.Msg
-	} else {
-		respData = data
-	}
 	if err == nil {
-		r.Data = respData
-		r.Msg = msg
+		r.Data = data
 	} else {
 		r.Error = err
 	}

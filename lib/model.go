@@ -11,7 +11,6 @@ type Error struct {
 //Resp : Response Model
 type Resp struct {
 	Data   interface{} `json:"data,omitempty"`
-	Msg    interface{} `json:"message,omitempty"`
 	Error  error       `json:"error,omitempty"`
 	Status bool        `json:"status"`
 }

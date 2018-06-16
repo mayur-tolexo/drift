@@ -1,6 +1,8 @@
 package drift
 
 import (
+	"strings"
+
 	"github.com/mayur-tolexo/drift/lib"
 	"github.com/rightjoin/aqua"
 )
@@ -10,6 +12,8 @@ type ds struct {
 	aqua.RestService `prefix:"drift" root:"/" version:"1"`
 	addConsumer      aqua.POST `url:"add/consumer/"`
 	publishReq       aqua.POST `url:"pub/request/"`
+	killConsumer     aqua.POST `url:"kill/consumer/"`
+	consumerCount    aqua.GET  `url:"consumer/"`
 	drift            *Drift
 }
 
@@ -21,7 +25,7 @@ func (d *ds) AddConsumer(req aqua.Aide) (int, interface{}) {
 		err     error
 	)
 	if payload, err = vAddConsumer(req); err == nil {
-		data, err = d.drift.pAddConsumer(payload)
+		data, err = d.drift.addConsumer(payload)
 	}
 	return lib.BuildResponse(data, err)
 }
@@ -35,6 +39,39 @@ func (d *ds) PublishReq(req aqua.Aide) (int, interface{}) {
 	)
 	if payload, err = vPublishReq(req); err == nil {
 		data, err = pPublishReq(payload)
+	}
+	return lib.BuildResponse(data, err)
+}
+
+//ConsumerCount will return the consumer count of the channel of given topic
+//pass topic and channel in query params.
+//Is need to get count of total consumer of a topic then only pass topic
+func (d *ds) ConsumerCount(qParam aqua.Aide) (int, interface{}) {
+	count := 0
+	qParam.LoadVars()
+	topic := qParam.QueryVar["topic"]
+	channel := qParam.QueryVar["channel"]
+	if channel == "" {
+		for key, val := range d.drift.consumers {
+			if strings.HasPrefix(key, topic) {
+				count += len(val)
+			}
+		}
+	} else {
+		count = len(d.drift.consumers[hash(topic, channel)])
+	}
+	return lib.BuildResponse(count, nil)
+}
+
+//KillConsumer will kill consumer of given topic
+func (d *ds) KillConsumer(req aqua.Aide) (int, interface{}) {
+	var (
+		data    interface{}
+		payload KillConsumer
+		err     error
+	)
+	if payload, err = vKillConsumer(req); err == nil {
+		data, err = d.drift.killConsumer(payload)
 	}
 	return lib.BuildResponse(data, err)
 }
