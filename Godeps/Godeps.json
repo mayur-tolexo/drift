@@ -55,9 +55,28 @@
 			"Rev": "eff1632b1caea7c554b174d5551ff2791021810c"
 		},
 		{
+			"ImportPath": "github.com/go-playground/locales",
+			"Comment": "v0.11.2",
+			"Rev": "e4cbcb5d0652150d40ad0646651076b6bd2be4f6"
+		},
+		{
+			"ImportPath": "github.com/go-playground/locales/currency",
+			"Comment": "v0.11.2",
+			"Rev": "e4cbcb5d0652150d40ad0646651076b6bd2be4f6"
+		},
+		{
+			"ImportPath": "github.com/go-playground/universal-translator",
+			"Comment": "v0.16.0-1-g7120149",
+			"Rev": "71201497bace774495daed26a3874fd339e0b538"
+		},
+		{
 			"ImportPath": "github.com/go-sql-driver/mysql",
 			"Comment": "v1.3-31-g26471af",
 			"Rev": "26471af196a17ee75a22e6481b5a5897fb16b081"
+		},
+		{
+			"ImportPath": "github.com/golang/snappy",
+			"Rev": "553a641470496b2327abcac10b36396bd98e45c9"
 		},
 		{
 			"ImportPath": "github.com/gorilla/mux",
@@ -102,6 +121,11 @@
 			"ImportPath": "github.com/jordan-wright/email",
 			"Comment": "v3.0",
 			"Rev": "94ae17dedda217a49e3b47d68f1b54b3c946e16b"
+		},
+		{
+			"ImportPath": "github.com/json-iterator/go",
+			"Comment": "jsoniter-go-0.9.19-23-g2dc0031",
+			"Rev": "2dc0031b26575ddf5dab09ab7795105a05575473"
 		},
 		{
 			"ImportPath": "github.com/kardianos/osext",
@@ -174,6 +198,11 @@
 		{
 			"ImportPath": "github.com/mitchellh/mapstructure",
 			"Rev": "d0303fe809921458f417bcf828397a65db30a7e4"
+		},
+		{
+			"ImportPath": "github.com/nsqio/go-nsq",
+			"Comment": "v1.0.7-5-gbe2eb35",
+			"Rev": "be2eb35667954359e06a56f76dd629c54895b8b9"
 		},
 		{
 			"ImportPath": "github.com/olivere/elastic",
@@ -279,6 +308,18 @@
 			"Rev": "7b5e8bd1070755e983256288f2143858d792a6f4"
 		},
 		{
+			"ImportPath": "github.com/tolexo/aero/db/postgres",
+			"Rev": "7b5e8bd1070755e983256288f2143858d792a6f4"
+		},
+		{
+			"ImportPath": "github.com/tolexo/tachyon/db",
+			"Rev": "3583b3bb6526ba50b83baac8b02f645e5c42fac1"
+		},
+		{
+			"ImportPath": "github.com/tolexo/tachyon/lib",
+			"Rev": "3583b3bb6526ba50b83baac8b02f645e5c42fac1"
+		},
+		{
 			"ImportPath": "golang.org/x/net/context",
 			"Rev": "b3756b4b77d7b13260a0a2ec658753cf48922eac"
 		},
@@ -289,6 +330,11 @@
 		{
 			"ImportPath": "gopkg.in/bsm/ratelimit.v1",
 			"Rev": "db14e161995a5177acef654cb0dd785e8ee8bc22"
+		},
+		{
+			"ImportPath": "gopkg.in/go-playground/validator.v9",
+			"Comment": "v9.9.4",
+			"Rev": "3620d3c0694119b61c72071ff5a05a976e97b05a"
 		},
 		{
 			"ImportPath": "gopkg.in/redis.v3",
