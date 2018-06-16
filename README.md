@@ -1,5 +1,5 @@
 # drift
-NSQ Consumer integration to drift your request smoothly. Add/Kill consumer over http request on any topic.
+NSQ Consumer integration to drift your request smoothly. Add/Kill consumer over http request on any topic.  
 [DOC](godoc.org/github.com/mayur-tolexo/drift)
 
 ### STEPS TO INSTALL drift
