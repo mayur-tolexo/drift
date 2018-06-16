@@ -22,12 +22,22 @@ const (
 	allKey   = "ALL"
 )
 
-//Newdrift will create the drift model
-func Newdrift(jobHandler JobHandler) *Drift {
+//NewConsumer will create new consumer
+func NewConsumer(jobHandler JobHandler) *Drift {
 	return &Drift{
 		jobHandler:    jobHandler,
 		chanelHandler: make(map[string]JobHandler),
 		consumers:     make(map[string][]*nsq.Consumer),
+	}
+}
+
+//NewPub will create new publisher
+func NewPub(nsqDHttpAddrs string) *Drift {
+	return &Drift{
+		jobHandler:    nil,
+		chanelHandler: make(map[string]JobHandler),
+		consumers:     make(map[string][]*nsq.Consumer),
+		pubAddrs:      nsqDHttpAddrs,
 	}
 }
 

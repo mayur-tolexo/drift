@@ -11,8 +11,7 @@ import (
 func main() {
 	msg := flag.String("msg", "Hi this is a test", "Message to broadcast")
 	flag.Parse()
-	d := drift.Newdrift(nil)
-	d.NewPub("http://127.0.0.1:4151")
+	d := drift.NewPub("http://127.0.0.1:4151")
 	if resp, err := d.Publish("elastic", *msg); err == nil {
 		fmt.Println(resp)
 	} else {

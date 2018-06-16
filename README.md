@@ -61,7 +61,7 @@ func printIT(value ...interface{}) error {
 }
 
 func main() {
-  d := drift.NewDrift(printIT)
+  d := drift.NewConsumer(printIT)
   d.Start(1500)
 }
 

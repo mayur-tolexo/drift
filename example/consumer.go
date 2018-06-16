@@ -23,7 +23,7 @@ func printIT3(value ...interface{}) error {
 
 func main() {
 	//Default handler is printIT
-	d := drift.Newdrift(printIT)
+	d := drift.NewConsumer(printIT)
 	//elastic v6.2 handler is printIT2
 	d.AddChanelHandler("elastic", "v6.2", printIT2)
 	//elastic all channels, except v6.2, is printIT3
