@@ -45,6 +45,14 @@ type AddAdmin struct {
 	NotificationHTTPEndpoint string   `json:"notification_http_endpoint"`
 }
 
+//Admin is the request format of admin api to permorm action
+//allowed actions are - empty/delete/pause/unpause
+type Admin struct {
+	Topic   string `json:"topic"`
+	Channel string `json:"channel"`
+	Action  string `json:"action"`
+}
+
 //tailHandler will implement the nsq handler
 type tailHandler struct {
 	topicName  string

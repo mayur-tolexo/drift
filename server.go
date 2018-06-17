@@ -16,6 +16,7 @@ type ds struct {
 	addConsumer      aqua.POST `url:"add/consumer/"`
 	publishReq       aqua.POST `url:"pub/request/"`
 	killConsumer     aqua.POST `url:"kill/consumer/"`
+	admin            aqua.POST `url:"admin/"`
 	drift            *Drift
 }
 
@@ -106,4 +107,17 @@ func (d *ds) StopAdmin(req aqua.Aide) (int, interface{}) {
 		data = "Not Running"
 	}
 	return lib.BuildResponse(data, nil)
+}
+
+//Admin will do the admin actions
+func (d *ds) Admin(req aqua.Aide) (int, interface{}) {
+	var (
+		data    interface{}
+		payload Admin
+		err     error
+	)
+	if payload, err = vAdmin(req); err == nil {
+		data, err = d.drift.admin.doAction(payload)
+	}
+	return lib.BuildResponse(data, err)
 }

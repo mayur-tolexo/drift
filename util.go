@@ -3,6 +3,7 @@ package drift
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"os"
@@ -61,6 +62,23 @@ func (th *tailHandler) HandleMessage(m *nsq.Message) error {
 func vAddConsumer(req aqua.Aide) (payload AddConstumer, err error) {
 	req.LoadVars()
 	err = lib.Unmarshal(req.Body, &payload)
+	return
+}
+
+//vAdmin will validate admin action request
+func vAdmin(req aqua.Aide) (payload Admin, err error) {
+	req.LoadVars()
+	if err = lib.Unmarshal(req.Body, &payload); err == nil {
+		if payload.Topic == "" {
+			err = lib.VError("Empty Topic")
+		} else {
+			switch payload.Action {
+			case "empty", "delete", "pause", "unpause":
+			default:
+				err = lib.VError("Invalid action")
+			}
+		}
+	}
 	return
 }
 
@@ -149,9 +167,15 @@ func (d *Drift) addConsumer(payload AddConstumer) (data interface{}, err error) 
 		}
 	}
 	if payload.StartAdmin && !d.admin.adminRunning {
+		hostname, err := os.Hostname()
+		if err != nil {
+			panic(err)
+		}
 		d.admin.httpAddrs = defaultAdminAddrs
 		d.admin.lookupHTTPAddr = payload.LookupHTTPAddr
 		d.admin.nsqDTCPAddrs = payload.NsqDTCPAddrs
+		d.admin.adminUser = []string{"mayur-drift-" + hostname}
+		d.admin.aclHTTPHeader = "X-Drift"
 		go d.admin.startAdmin()
 	}
 	return
@@ -277,4 +301,44 @@ func (d *DAdmin) startAdmin() {
 	d.adminRunning = false
 	nsqadmin.Exit()
 	d.exitAdmin <- 1
+}
+
+//vStartAdmin will validate start admin request
+func (d *DAdmin) doAction(payload Admin) (data interface{}, err error) {
+	var (
+		b    []byte
+		req  *http.Request
+		resp *http.Response
+	)
+	reqBody := map[string]string{"action": payload.Action}
+	if b, err = jsoniter.Marshal(reqBody); err == nil {
+		method := "POST"
+		if payload.Action == "delete" {
+			method = "DELETE"
+		}
+		URL := fmt.Sprintf("http://%v/api/topics/%v", d.httpAddrs, payload.Topic)
+		if payload.Channel != "" {
+			URL += "/" + payload.Channel
+		}
+		if req, err = http.NewRequest(method,
+			URL, bytes.NewBuffer(b)); err == nil {
+			HTTPClient := &http.Client{}
+			if resp, err = HTTPClient.Do(req); err == nil {
+				defer resp.Body.Close()
+				if resp.StatusCode == http.StatusOK {
+					bodyBytes, _ := ioutil.ReadAll(resp.Body)
+					if err = jsoniter.Unmarshal(bodyBytes, &data); err != nil {
+						err = lib.UnmarshalError(err)
+					}
+				}
+			} else {
+				err = lib.BadReqError(err)
+			}
+		} else {
+			err = lib.BadReqError(err)
+		}
+	} else {
+		err = lib.BadReqError(err)
+	}
+	return
 }
