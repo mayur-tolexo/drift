@@ -10,10 +10,12 @@ import (
 //DS is the drift service
 type ds struct {
 	aqua.RestService `prefix:"drift" root:"/" version:"1"`
+	consumerCount    aqua.GET  `url:"consumer/"`
+	stopAdmin        aqua.GET  `url:"stop/admin/"`
+	startAdmin       aqua.POST `url:"start/admin/"`
 	addConsumer      aqua.POST `url:"add/consumer/"`
 	publishReq       aqua.POST `url:"pub/request/"`
 	killConsumer     aqua.POST `url:"kill/consumer/"`
-	consumerCount    aqua.GET  `url:"consumer/"`
 	drift            *Drift
 }
 
@@ -74,4 +76,34 @@ func (d *ds) KillConsumer(req aqua.Aide) (int, interface{}) {
 		data, err = d.drift.killConsumer(payload)
 	}
 	return lib.BuildResponse(data, err)
+}
+
+//StartAdmin will start admin
+func (d *ds) StartAdmin(req aqua.Aide) (int, interface{}) {
+	var (
+		data interface{}
+		err  error
+	)
+	if err = d.drift.admin.vStartAdmin(req); err == nil {
+		if d.drift.admin.adminRunning {
+			err = lib.VError("Already Running at", d.drift.admin.httpAddrs)
+		} else {
+			go d.drift.admin.startAdmin()
+			data = "Admin started at " + d.drift.admin.httpAddrs
+		}
+	}
+	return lib.BuildResponse(data, err)
+}
+
+//StopAdmin will stop admin
+func (d *ds) StopAdmin(req aqua.Aide) (int, interface{}) {
+	var data interface{}
+	if d.drift.admin.adminRunning {
+		d.drift.admin.exitAdmin <- 1
+		<-d.drift.admin.exitAdmin
+		data = "DONE"
+	} else {
+		data = "Not Running"
+	}
+	return lib.BuildResponse(data, nil)
 }

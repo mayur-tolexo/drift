@@ -13,6 +13,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/mayur-tolexo/drift/lib"
 	nsq "github.com/nsqio/go-nsq"
+	"github.com/nsqio/nsq/nsqadmin"
 	"github.com/rightjoin/aqua"
 )
 
@@ -32,6 +33,16 @@ func NewConsumer(jobHandler JobHandler) *Drift {
 
 //NewPub will create new publisher
 func NewPub(nsqDHttpAddrs string) *Drift {
+	return &Drift{
+		jobHandler:    nil,
+		chanelHandler: make(map[string]JobHandler),
+		consumers:     make(map[string][]*nsq.Consumer),
+		pubAddrs:      nsqDHttpAddrs,
+	}
+}
+
+//NewAdmin will create new admin model
+func NewAdmin(nsqDHttpAddrs string) *Drift {
 	return &Drift{
 		jobHandler:    nil,
 		chanelHandler: make(map[string]JobHandler),
@@ -125,10 +136,17 @@ func (d *Drift) addConsumer(payload AddConstumer) (data interface{}, err error) 
 			key := hash(topic, channel)
 			d.consumers[key] = append(d.consumers[key], c)
 			data = "DONE"
+
 		} else {
 			err = lib.BadReqError(err)
 			break
 		}
+	}
+	if payload.StartAdmin && !d.admin.adminRunning {
+		d.admin.httpAddrs = "0.0.0.0:4171"
+		d.admin.lookupHTTPAddr = payload.LookupHTTPAddr
+		d.admin.nsqDTCPAddrs = payload.NsqDTCPAddrs
+		go d.admin.startAdmin()
 	}
 	return
 }
@@ -202,4 +220,45 @@ func (d *Drift) killConsumer(payload KillConsumer) (data interface{}, err error)
 	}
 	data = "DONE"
 	return
+}
+
+//vStartAdmin will validate start admin request
+func (d *DAdmin) vStartAdmin(req aqua.Aide) (err error) {
+	req.LoadVars()
+	var payload AddAdmin
+	if err = lib.Unmarshal(req.Body, &payload); err == nil {
+		if payload.HTTPAddrs == "" {
+			payload.HTTPAddrs = "0.0.0.0:4171"
+		}
+		d.httpAddrs = payload.HTTPAddrs
+		d.adminUser = payload.AdminUser
+		d.lookupHTTPAddr = payload.LookupHTTPAddr
+		d.nsqDTCPAddrs = payload.NsqDTCPAddrs
+	}
+	return
+}
+
+//startAdmin will add new admin
+func (d *DAdmin) startAdmin() {
+	signalChan := make(chan os.Signal, 1)
+	d.exitAdmin = make(chan int)
+	go func() {
+		<-signalChan
+		d.exitAdmin <- 1
+	}()
+	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+
+	opts := nsqadmin.NewOptions()
+	opts.HTTPAddress = d.httpAddrs
+	opts.AdminUsers = d.adminUser
+	opts.NSQLookupdHTTPAddresses = d.lookupHTTPAddr
+	opts.NSQDHTTPAddresses = d.nsqDTCPAddrs
+
+	nsqadmin := nsqadmin.New(opts)
+	nsqadmin.Main()
+	d.adminRunning = true
+	<-d.exitAdmin
+	d.adminRunning = false
+	nsqadmin.Exit()
+	d.exitAdmin <- 1
 }

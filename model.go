@@ -11,6 +11,7 @@ type AddConstumer struct {
 	NsqDTCPAddrs   []string    `json:"nsqd_tcp_address"`
 	Topic          []TopicData `json:"topic_detail"`
 	MaxInFlight    int         `json:"max_in_flight"`
+	StartAdmin     bool        `json:"start_admin"`
 }
 
 //KillConsumer is the request format of kill consumer api
@@ -33,6 +34,14 @@ type TopicData struct {
 	Channel string `json:"channel"`
 }
 
+//AddAdmin is the add admin request
+type AddAdmin struct {
+	AdminUser      []string `json:"user"`
+	HTTPAddrs      string   `json:"http_address"`
+	LookupHTTPAddr []string `json:"lookup_http_address"`
+	NsqDTCPAddrs   []string `json:"nsqd_tcp_address"`
+}
+
 //tailHandler will implement the nsq handler
 type tailHandler struct {
 	topicName  string
@@ -42,11 +51,22 @@ type tailHandler struct {
 //JobHandler function which will be called
 type JobHandler func(value ...interface{}) error
 
-//Drift will have the handler function
+//Drift have the consumer/publisher model
 type Drift struct {
 	Server        aqua.RestServer
 	chanelHandler map[string]JobHandler
 	jobHandler    JobHandler
 	consumers     map[string][]*nsq.Consumer
 	pubAddrs      string
+	admin         DAdmin
+}
+
+//DAdmin have the drift admin model
+type DAdmin struct {
+	adminUser      []string `json:"user"`
+	httpAddrs      string   `json:"http_address"`
+	lookupHTTPAddr []string `json:"lookup_http_address"`
+	nsqDTCPAddrs   []string `json:"nsqd_tcp_address"`
+	adminRunning   bool
+	exitAdmin      chan int
 }

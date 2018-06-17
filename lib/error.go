@@ -6,6 +6,11 @@ func BadReqError(err error, debugMsg ...string) error {
 	return newError(INVALID_REQUEST_MSG, err, VALIDATE_ERROR, debugMsg...)
 }
 
+//VError : validation error
+func VError(debugMsg ...string) error {
+	return newError(INVALID_REQUEST_MSG, nil, VALIDATE_ERROR, debugMsg...)
+}
+
 //UnmarshalError : error occured while unmarshal
 func UnmarshalError(err error, debugMsg ...string) error {
 	return newError(INVALID_REQUEST_MSG, err, VALIDATE_ERROR, debugMsg...)

@@ -1,6 +1,8 @@
 package drift
 
 import (
+	"fmt"
+	"os"
 	"runtime"
 
 	"github.com/rightjoin/aqua"
@@ -18,6 +20,12 @@ func (d *Drift) AddChanelHandler(topic, channel string, jobHandler JobHandler) {
 
 //Start will start the drift server
 func (d *Drift) Start(port int) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered in drift", r)
+			os.Exit(1)
+		}
+	}()
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	d.Server = aqua.NewRestServer()
 	d.Server.Port = port
