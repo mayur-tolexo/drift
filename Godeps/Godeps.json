@@ -16,6 +16,15 @@
 			"Rev": "c818dddafb5c91bd13275f49b08e38a489cbef5f"
 		},
 		{
+			"ImportPath": "github.com/blang/semver",
+			"Comment": "v3.5.1-3-gc5e971d",
+			"Rev": "c5e971dbed7850a93c23aa6ff69db5771d8e23b3"
+		},
+		{
+			"ImportPath": "github.com/bmizerany/perks/quantile",
+			"Rev": "d9a9656a3a4b1c2864fdb44db2ef8619772d92aa"
+		},
+		{
 			"ImportPath": "github.com/carbocation/interpose",
 			"Rev": "723534742ba3bbda66268b735aaa41634468acc6"
 		},
@@ -78,6 +87,16 @@
 			"Rev": "2dc0031b26575ddf5dab09ab7795105a05575473"
 		},
 		{
+			"ImportPath": "github.com/judwhite/go-svc/svc",
+			"Comment": "v1.0.0-6-g52e9762",
+			"Rev": "52e9762f4dcd5373a8ecdefd85ed089cac66afa4"
+		},
+		{
+			"ImportPath": "github.com/julienschmidt/httprouter",
+			"Comment": "v1.1-63-gadbc77e",
+			"Rev": "adbc77eec0d91467376ca515bc3a14b8434d0f18"
+		},
+		{
 			"ImportPath": "github.com/kardianos/osext",
 			"Rev": "ae77be60afb1dcacde03767a8c37337fad28ac14"
 		},
@@ -134,9 +153,97 @@
 			"Rev": "d0303fe809921458f417bcf828397a65db30a7e4"
 		},
 		{
+			"ImportPath": "github.com/mreiferson/go-options",
+			"Rev": "77551d20752b54535462404ad9d877ebdb26e53d"
+		},
+		{
+			"ImportPath": "github.com/nsqio/go-diskqueue",
+			"Rev": "74cfbc9de8399a7fa86d676b908b002120826fc0"
+		},
+		{
 			"ImportPath": "github.com/nsqio/go-nsq",
 			"Comment": "v1.0.7-5-gbe2eb35",
 			"Rev": "be2eb35667954359e06a56f76dd629c54895b8b9"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/auth",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/clusterinfo",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/dirlock",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/http_api",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/lg",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/pqueue",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/protocol",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/quantile",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/statsd",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/stringy",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/util",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/version",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/internal/writers",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/nsqadmin",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/nsqd",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
+		},
+		{
+			"ImportPath": "github.com/nsqio/nsq/nsqlookupd",
+			"Comment": "v1.0.0-compat-129-gf5a0a0a",
+			"Rev": "f5a0a0a29ad1abcea1f627cf016c5636ebf40a6e"
 		},
 		{
 			"ImportPath": "github.com/pivotal-golang/bytefmt",
@@ -227,6 +334,14 @@
 		},
 		{
 			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "07c182904dbd53199946ba614a412c61d3c548f5"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/windows",
+			"Rev": "07c182904dbd53199946ba614a412c61d3c548f5"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/windows/svc",
 			"Rev": "07c182904dbd53199946ba614a412c61d3c548f5"
 		},
 		{
