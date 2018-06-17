@@ -240,6 +240,8 @@ func (d *DAdmin) vStartAdmin(req aqua.Aide) (err error) {
 		d.adminUser = payload.AdminUser
 		d.lookupHTTPAddr = payload.LookupHTTPAddr
 		d.nsqDTCPAddrs = payload.NsqDTCPAddrs
+		d.aclHTTPHeader = payload.ACLHTTPHeader
+		d.notificationHTTPEndpoint = payload.NotificationHTTPEndpoint
 	}
 	return
 }
@@ -265,6 +267,8 @@ func (d *DAdmin) startAdmin() {
 	opts.AdminUsers = d.adminUser
 	opts.NSQLookupdHTTPAddresses = d.lookupHTTPAddr
 	opts.NSQDHTTPAddresses = d.nsqDTCPAddrs
+	opts.AclHttpHeader = d.aclHTTPHeader
+	opts.NotificationHTTPEndpoint = d.notificationHTTPEndpoint
 
 	nsqadmin := nsqadmin.New(opts)
 	nsqadmin.Main()

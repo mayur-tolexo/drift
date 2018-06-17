@@ -37,10 +37,12 @@ type TopicData struct {
 
 //AddAdmin is the add admin request
 type AddAdmin struct {
-	AdminUser      []string `json:"user"`
-	HTTPAddrs      string   `json:"http_address"`
-	LookupHTTPAddr []string `json:"lookup_http_address"`
-	NsqDTCPAddrs   []string `json:"nsqd_tcp_address"`
+	AdminUser                []string `json:"user"`
+	HTTPAddrs                string   `json:"http_address"`
+	LookupHTTPAddr           []string `json:"lookup_http_address"`
+	NsqDTCPAddrs             []string `json:"nsqd_tcp_address"`
+	ACLHTTPHeader            string   `json:"acl_http_header"`
+	NotificationHTTPEndpoint string   `json:"notification_http_endpoint"`
 }
 
 //tailHandler will implement the nsq handler
@@ -64,10 +66,12 @@ type Drift struct {
 
 //DAdmin have the drift admin model
 type DAdmin struct {
-	adminUser      []string `json:"user"`
-	httpAddrs      string   `json:"http_address"`
-	lookupHTTPAddr []string `json:"lookup_http_address"`
-	nsqDTCPAddrs   []string `json:"nsqd_tcp_address"`
-	adminRunning   bool
-	exitAdmin      chan int
+	adminUser                []string
+	httpAddrs                string
+	lookupHTTPAddr           []string
+	nsqDTCPAddrs             []string
+	aclHTTPHeader            string
+	notificationHTTPEndpoint string
+	adminRunning             bool
+	exitAdmin                chan int
 }
