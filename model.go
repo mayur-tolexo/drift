@@ -45,7 +45,7 @@ type AddAdmin struct {
 	NotificationHTTPEndpoint string   `json:"notification_http_endpoint"`
 }
 
-//Admin is the request format of admin api to permorm action
+//Admin is the request format of admin api to permorm action.
 //allowed actions are - empty/delete/pause/unpause
 type Admin struct {
 	Topic   string `json:"topic"`
@@ -69,11 +69,11 @@ type Drift struct {
 	jobHandler    JobHandler
 	consumers     map[string][]*nsq.Consumer
 	pubAddrs      string
-	admin         DAdmin
+	admin         dAdmin
 }
 
-//DAdmin have the drift admin model
-type DAdmin struct {
+//dAdmin have the drift admin model
+type dAdmin struct {
 	adminUser                []string
 	httpAddrs                string
 	lookupHTTPAddr           []string

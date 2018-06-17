@@ -253,7 +253,7 @@ func (d *Drift) killConsumer(payload KillConsumer) (data interface{}, err error)
 }
 
 //vStartAdmin will validate start admin request
-func (d *DAdmin) vStartAdmin(req aqua.Aide) (err error) {
+func (d *dAdmin) vStartAdmin(req aqua.Aide) (err error) {
 	req.LoadVars()
 	var payload AddAdmin
 	if err = lib.Unmarshal(req.Body, &payload); err == nil {
@@ -271,7 +271,7 @@ func (d *DAdmin) vStartAdmin(req aqua.Aide) (err error) {
 }
 
 //startAdmin will add new admin
-func (d *DAdmin) startAdmin() {
+func (d *dAdmin) startAdmin() {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("Recovered in admin", r)
@@ -304,7 +304,7 @@ func (d *DAdmin) startAdmin() {
 }
 
 //vStartAdmin will validate start admin request
-func (d *DAdmin) doAction(payload Admin) (data interface{}, err error) {
+func (d *dAdmin) doAction(payload Admin) (data interface{}, err error) {
 	var (
 		b    []byte
 		req  *http.Request
