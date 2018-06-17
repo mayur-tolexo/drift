@@ -13,7 +13,7 @@ Publish new request over http on any nsqd.
 1. cd $GOPATH/src/github.com/mayur-tolexo/drift
 1. install [godep](https://www.github.com/tools/godep)
 1. godep restore
-1. go run example/consumer.go
+1. go run example/drift.go
 1. `[in new tab]` go get github.com/nsqio/nsq
 1. go get github.com/golang/dep/cmd/dep
 1. cd $GOPATH/src/github.com/nsqio/nsq/
@@ -22,13 +22,22 @@ Publish new request over http on any nsqd.
 1. go run nsqlookupd.go
 1. `[in new tab]` cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqd
 1. go run nsqd.go --lookupd-tcp-address=127.0.0.1:4160
-1. `[in new tab]` cd $GOPATH/src/github.com/nsqio/nsq/apps/nsqadmin
-1. go run main.go --lookupd-http-address=127.0.0.1:4161
-1. open http://127.0.0.1:4171/ in browser
 1. `[in new tab]` cd $GOPATH/src/github.com/mayur-tolexo/drift
 1. go run example/producer.go
-1. add new consumer as given below
+1. add new consumer as mention below
+1. start admin as mention below
+1. open http://127.0.0.1:4171/ in browser
 
+### START ADMIN
+*POST* localhost:1500/drift/v1/start/admin/
+```
+{
+  "lookup_http_address": ["127.0.0.1:4161"]
+}
+```
+
+### STOP ADMIN
+```GET localhost:1500/drift/v1/stop/admin/```
 
 ### ADD NEW CONSUMER
 *POST* localhost:1500/drift/v1/add/consumer/
@@ -52,10 +61,10 @@ Publish new request over http on any nsqd.
 ```
 
 ### COUNT CONSUMERS OF A TOPIC ON SPECIFIC CHANNEL
-```GET localhost:1500/drift/v1//consumer/?topic=elastic&channel=v2.1```
+```GET localhost:1500/drift/v1/consumer/?topic=elastic&channel=v2.1```
 
 ### COUNT ALL CONSUMERS OF A TOPIC
-```GET localhost:1500/drift/v1//consumer/?topic=elastic```
+```GET localhost:1500/drift/v1/consumer/?topic=elastic```
 
 ### KILL CONSUMER
 *POST* localhost:1500/drift/v1/kill/consumer/
@@ -77,7 +86,6 @@ Publish new request over http on any nsqd.
 }
 ```
 
-
 # Example
 ```
 //printIT : function which consumer will call to execute
@@ -92,7 +100,6 @@ func main() {
 }
 
 ```
-
 
 # Handler
 ```
