@@ -45,11 +45,13 @@ Publish new request over http on any nsqd.
   "topic_detail": [
     {
       "topic": "elastic",
-      "channel": "v2.1"
+      "channel": "v2.1",
+      "count": 1
     },
     {
       "topic": "elastic",
-      "channel": "v6.2"
+      "channel": "v6.2",
+      "count": 2
     }
   ],
   "max_in_flight": 200
