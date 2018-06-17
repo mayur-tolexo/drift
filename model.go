@@ -32,6 +32,7 @@ type Publish struct {
 type TopicData struct {
 	Topic   string `json:"topic"`
 	Channel string `json:"channel"`
+	Count   int    `json:"count"`
 }
 
 //AddAdmin is the add admin request

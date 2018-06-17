@@ -18,8 +18,9 @@ import (
 )
 
 const (
-	driftApp = "-DRIFT-"
-	allKey   = "ALL"
+	driftApp          = "-DRIFT-"
+	allKey            = "ALL"
+	defaultAdminAddrs = "127.0.0.1:4171"
 )
 
 //NewConsumer will create new consumer
@@ -118,32 +119,37 @@ func (d *Drift) addConsumer(payload AddConstumer) (data interface{}, err error) 
 
 		topic := payload.Topic[i].Topic
 		channel := getChannel(payload.Topic[i].Channel)
+		n := lib.GetPriorityValue(payload.Topic[i].Count, 1).(int)
 		handler := d.getHandler(topic, channel)
 		if handler == nil {
 			continue
 		}
-		if c, err = nsq.NewConsumer(topic, channel, config); err == nil {
-			fmt.Println("Adding consumer for topic:", topic)
-			c.AddHandler(&tailHandler{topicName: topic, jobHandler: handler})
-			if err = c.ConnectToNSQDs(payload.NsqDTCPAddrs); err != nil {
+		for j := 0; j < n; j++ {
+			if c, err = nsq.NewConsumer(topic, channel, config); err == nil {
+				fmt.Println("Adding consumer for topic:", topic)
+				c.AddHandler(&tailHandler{topicName: topic, jobHandler: handler})
+				if err = c.ConnectToNSQDs(payload.NsqDTCPAddrs); err != nil {
+					err = lib.BadReqError(err)
+					break
+				}
+				if err = c.ConnectToNSQLookupds(payload.LookupHTTPAddr); err != nil {
+					err = lib.BadReqError(err)
+					break
+				}
+				key := hash(topic, channel)
+				d.consumers[key] = append(d.consumers[key], c)
+				data = "DONE"
+			} else {
 				err = lib.BadReqError(err)
 				break
 			}
-			if err = c.ConnectToNSQLookupds(payload.LookupHTTPAddr); err != nil {
-				err = lib.BadReqError(err)
-				break
-			}
-			key := hash(topic, channel)
-			d.consumers[key] = append(d.consumers[key], c)
-			data = "DONE"
-
-		} else {
-			err = lib.BadReqError(err)
+		}
+		if err != nil {
 			break
 		}
 	}
 	if payload.StartAdmin && !d.admin.adminRunning {
-		d.admin.httpAddrs = "0.0.0.0:4171"
+		d.admin.httpAddrs = defaultAdminAddrs
 		d.admin.lookupHTTPAddr = payload.LookupHTTPAddr
 		d.admin.nsqDTCPAddrs = payload.NsqDTCPAddrs
 		go d.admin.startAdmin()
@@ -228,7 +234,7 @@ func (d *DAdmin) vStartAdmin(req aqua.Aide) (err error) {
 	var payload AddAdmin
 	if err = lib.Unmarshal(req.Body, &payload); err == nil {
 		if payload.HTTPAddrs == "" {
-			payload.HTTPAddrs = "0.0.0.0:4171"
+			payload.HTTPAddrs = defaultAdminAddrs
 		}
 		d.httpAddrs = payload.HTTPAddrs
 		d.adminUser = payload.AdminUser
@@ -240,6 +246,12 @@ func (d *DAdmin) vStartAdmin(req aqua.Aide) (err error) {
 
 //startAdmin will add new admin
 func (d *DAdmin) startAdmin() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered in admin", r)
+			os.Exit(1)
+		}
+	}()
 	signalChan := make(chan os.Signal, 1)
 	d.exitAdmin = make(chan int)
 	go func() {
