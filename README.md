@@ -28,7 +28,9 @@ Publish new request over http on any nsqd.
 *POST* localhost:1500/drift/v1/start/admin/
 ```
 {
-  "lookup_http_address": ["127.0.0.1:4161"]
+  "lookup_http_address": ["127.0.0.1:4161"],
+  "user": ["drift-user"],
+  "acl_http_header": "admin-user"
 }
 ```
 

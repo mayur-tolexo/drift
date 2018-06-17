@@ -117,7 +117,11 @@ func (d *ds) Admin(req aqua.Aide) (int, interface{}) {
 		err     error
 	)
 	if payload, err = vAdmin(req); err == nil {
-		data, err = d.drift.admin.doAction(payload)
+		if d.drift.admin.adminRunning {
+			data, err = d.drift.admin.doAction(payload)
+		} else {
+			err = lib.VError("Admin not running")
+		}
 	}
 	return lib.BuildResponse(data, err)
 }
