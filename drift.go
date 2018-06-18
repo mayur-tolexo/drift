@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"runtime"
+	"strings"
 	"syscall"
 
 	jsoniter "github.com/json-iterator/go"
@@ -174,7 +175,7 @@ func (d *dAdmin) vStartAdmin(req aqua.Aide) (err error) {
 		if payload.HTTPAddrs == "" {
 			payload.HTTPAddrs = defaultAdminAddrs
 		}
-		d.httpAddrs = payload.HTTPAddrs
+		d.httpAddrs = strings.TrimPrefix(payload.HTTPAddrs, "http://")
 		d.adminUser = payload.AdminUser
 		d.lookupHTTPAddr = payload.LookupHTTPAddr
 		d.nsqDTCPAddrs = payload.NsqDTCPAddrs

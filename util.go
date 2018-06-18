@@ -35,7 +35,7 @@ func NewPub(nsqDHttpAddrs string) *Drift {
 		jobHandler:    nil,
 		chanelHandler: make(map[string]JobHandler),
 		consumers:     make(map[string][]*nsq.Consumer),
-		pubAddrs:      nsqDHttpAddrs,
+		pubAddrs:      strings.TrimPrefix(nsqDHttpAddrs, "http://"),
 	}
 }
 
@@ -45,7 +45,7 @@ func NewAdmin(nsqDHttpAddrs string) *Drift {
 		jobHandler:    nil,
 		chanelHandler: make(map[string]JobHandler),
 		consumers:     make(map[string][]*nsq.Consumer),
-		pubAddrs:      nsqDHttpAddrs,
+		pubAddrs:      strings.TrimPrefix(nsqDHttpAddrs, "http://"),
 	}
 }
 
