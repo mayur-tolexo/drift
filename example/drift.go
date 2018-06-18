@@ -26,7 +26,7 @@ func main() {
 	d := drift.NewConsumer(printIT)
 	//elastic v6.2 handler is printIT2
 	d.AddChanelHandler("elastic", "v6.2", printIT2)
-	//elastic all channels, except v6.2, is printIT3
+	//elastic all channels handler, except v6.2, is printIT3
 	d.AddTopicHandler("elastic", printIT3)
 	d.Start(1500)
 }

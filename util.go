@@ -80,7 +80,11 @@ func vAdmin(req aqua.Aide) (payload Admin, err error) {
 //vProduceReq will validate produce request
 func vPublishReq(req aqua.Aide) (payload Publish, err error) {
 	req.LoadVars()
-	err = lib.Unmarshal(req.Body, &payload)
+	if err = lib.Unmarshal(req.Body, &payload); err == nil {
+		if payload.NsqDHTTPAddrs == "" {
+			err = lib.VError("Invalid nsqd address")
+		}
+	}
 	return
 }
 
@@ -103,7 +107,7 @@ func pPublishReq(payload Publish) (data interface{}, err error) {
 		resp *http.Response
 	)
 	if b, err = jsoniter.Marshal(payload.Data); err == nil {
-		URL := fmt.Sprintf("%v/pub?topic=%v", payload.NsqDHTTPAddrs, payload.Topic)
+		URL := fmt.Sprintf("http://%v/pub?topic=%v", payload.NsqDHTTPAddrs, payload.Topic)
 		if req, err = http.NewRequest("POST",
 			URL, bytes.NewBuffer(b)); err == nil {
 			HTTPClient := &http.Client{}
