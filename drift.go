@@ -237,6 +237,9 @@ func (d *dAdmin) doAction(payload Admin, aclValue string) (data interface{}, err
 		if req, err = http.NewRequest(method,
 			URL, bytes.NewBuffer(b)); err == nil {
 			HTTPClient := &http.Client{}
+			if d.aclHTTPHeader == "" {
+				d.aclHTTPHeader = "X-Forwarded-User"
+			}
 			req.Header.Set(d.aclHTTPHeader, aclValue)
 			if resp, err = HTTPClient.Do(req); err == nil {
 				defer resp.Body.Close()
