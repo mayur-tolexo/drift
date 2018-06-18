@@ -118,7 +118,7 @@ func (d *ds) Admin(req aqua.Aide) (int, interface{}) {
 	)
 	if payload, err = vAdmin(req); err == nil {
 		if d.drift.admin.adminRunning {
-			data, err = d.drift.admin.doAction(payload)
+			data, err = d.drift.admin.doAction(payload, req.Request.Header.Get(d.drift.admin.aclHTTPHeader))
 		} else {
 			err = lib.VError("Admin not running")
 		}

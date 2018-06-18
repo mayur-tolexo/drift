@@ -218,7 +218,7 @@ func (d *dAdmin) startAdmin() {
 }
 
 //doAction will validate start admin request
-func (d *dAdmin) doAction(payload Admin) (data interface{}, err error) {
+func (d *dAdmin) doAction(payload Admin, aclValue string) (data interface{}, err error) {
 	var (
 		b    []byte
 		req  *http.Request
@@ -237,14 +237,15 @@ func (d *dAdmin) doAction(payload Admin) (data interface{}, err error) {
 		if req, err = http.NewRequest(method,
 			URL, bytes.NewBuffer(b)); err == nil {
 			HTTPClient := &http.Client{}
+			req.Header.Set(d.aclHTTPHeader, aclValue)
 			if resp, err = HTTPClient.Do(req); err == nil {
 				defer resp.Body.Close()
-				if resp.StatusCode == http.StatusOK {
-					bodyBytes, _ := ioutil.ReadAll(resp.Body)
-					if err = jsoniter.Unmarshal(bodyBytes, &data); err != nil {
-						err = lib.UnmarshalError(err)
-					}
+				// if resp.StatusCode == http.StatusOK {
+				bodyBytes, _ := ioutil.ReadAll(resp.Body)
+				if err = jsoniter.Unmarshal(bodyBytes, &data); err != nil {
+					err = lib.UnmarshalError(err)
 				}
+				// }
 			} else {
 				err = lib.BadReqError(err)
 			}
