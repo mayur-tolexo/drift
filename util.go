@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
 
 	jsoniter "github.com/json-iterator/go"
@@ -107,6 +108,7 @@ func pPublishReq(payload Publish) (data interface{}, err error) {
 		resp *http.Response
 	)
 	if b, err = jsoniter.Marshal(payload.Data); err == nil {
+		payload.NsqDHTTPAddrs = strings.TrimPrefix(payload.NsqDHTTPAddrs, "http://")
 		URL := fmt.Sprintf("http://%v/pub?topic=%v", payload.NsqDHTTPAddrs, payload.Topic)
 		if req, err = http.NewRequest("POST",
 			URL, bytes.NewBuffer(b)); err == nil {
