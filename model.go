@@ -46,7 +46,7 @@ type AddAdmin struct {
 }
 
 //Admin is the request format of admin api to permorm action.
-//allowed actions are - empty/delete/pause/unpause
+//allowed actions are - create/empty/delete/pause/unpause
 type Admin struct {
 	Topic   string `json:"topic"`
 	Channel string `json:"channel"`

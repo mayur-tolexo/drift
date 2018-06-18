@@ -226,14 +226,22 @@ func (d *dAdmin) doAction(payload Admin, aclValue string) (data interface{}, err
 		resp *http.Response
 	)
 	reqBody := map[string]string{"action": payload.Action}
+	if payload.Action == createAction {
+		reqBody = map[string]string{"topic": payload.Topic, "channel": payload.Channel}
+	}
 	if b, err = jsoniter.Marshal(reqBody); err == nil {
 		method := "POST"
-		if payload.Action == "delete" {
+		baseURL := fmt.Sprintf("http://%v/api/topics", d.httpAddrs)
+		URL := baseURL + "/" + payload.Topic
+		if payload.Action == deleteAction {
 			method = "DELETE"
 		}
-		URL := fmt.Sprintf("http://%v/api/topics/%v", d.httpAddrs, payload.Topic)
 		if payload.Channel != "" {
 			URL += "/" + payload.Channel
+		}
+
+		if payload.Action == createAction {
+			URL = baseURL
 		}
 		if req, err = http.NewRequest(method,
 			URL, bytes.NewBuffer(b)); err == nil {

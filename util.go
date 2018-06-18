@@ -18,6 +18,11 @@ const (
 	driftApp          = "-DRIFT-"
 	allKey            = "ALL"
 	defaultAdminAddrs = "127.0.0.1:4171"
+	createAction      = "create"
+	emptyAction       = "empty"
+	deleteAction      = "delete"
+	pauseAction       = "pause"
+	unpauseAction     = "unpause"
 )
 
 //NewConsumer will create new consumer
@@ -69,7 +74,7 @@ func vAdmin(req aqua.Aide) (payload Admin, err error) {
 			err = lib.VError("Empty Topic")
 		} else {
 			switch payload.Action {
-			case "empty", "delete", "pause", "unpause":
+			case createAction, emptyAction, deleteAction, pauseAction, unpauseAction:
 			default:
 				err = lib.VError("Invalid action")
 			}
