@@ -6,33 +6,37 @@ import (
 	"github.com/mayur-tolexo/drift"
 )
 
-func printIT(value ...interface{}) error {
-	fmt.Println("In 1st Print", value)
-	return nil
+// new pub created to publish message to nsqd
+func ExampleNewPub() {
+	d := drift.NewPub("127.0.0.1:4151")
+	msg := "This is a test"
+	if resp, err := d.Publish("elastic", msg); err == nil {
+		fmt.Println(resp)
+	} else {
+		fmt.Println(err.Error())
+	}
 }
 
-func printIT2(value ...interface{}) error {
-	fmt.Println("In 2nd Print", value)
-	return nil
+// This will map a new handeler with specified topic's channel
+func ExampleAddChanelHandler() {
+	d := drift.NewConsumer(nil)
+	topic := "elastic"
+	channel := "v6.2"
+	d.AddChanelHandler(topic, channel, printIT)
 }
 
-func printIT3(value ...interface{}) error {
-	fmt.Println("In 3rd Print", value)
-	return nil
+// This will map a new handeler with all channels of the specified topic.
+// If a channelHandler is already mapped with any channel of the specified topic then that handler will be called
+// and in rest of the channel this handler will be called.
+func ExampleAddTopicHandler() {
+	d := drift.NewConsumer(nil)
+	topic := "elastic"
+	d.AddTopicHandler(topic, printIT)
 }
 
-// New consumer created with handel to call by the consumer.
-// This will start new server to receive request over HTTP
-func ExampleNewConsumer() {
-	//Default handler is printIT
+// This will start the drift server to receive request over HTTP
+func ExampleStart() {
 	d := drift.NewConsumer(printIT)
-
-	//elastic v6.2 handler is printIT2
-	d.AddChanelHandler("elastic", "v6.2", printIT2)
-
-	//elastic all channels handler, except v6.2, is printIT3
-	d.AddTopicHandler("elastic", printIT3)
-
-	//port assign here is 1500
-	d.Start(1500)
+	port := 1500
+	d.Start(port)
 }
