@@ -23,9 +23,9 @@ type KillConsumer struct {
 
 //Publish is the request format of publish request api
 type Publish struct {
-	NsqDHTTPAddrs string      `json:"nsqd_http_address"`
-	Topic         string      `json:"topic"`
-	Data          interface{} `json:"data"`
+	NsqDTCPAddrs []string    `json:"nsqd_tcp_address"`
+	Topic        string      `json:"topic"`
+	Data         interface{} `json:"data"`
 }
 
 //TopicData will contail the topic details
@@ -68,7 +68,7 @@ type Drift struct {
 	chanelHandler map[string]JobHandler
 	jobHandler    JobHandler
 	consumers     map[string][]*nsq.Consumer
-	pubAddrs      string
+	pubAddrs      []string
 	admin         dAdmin
 }
 

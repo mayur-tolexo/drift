@@ -1,10 +1,8 @@
 package drift
 
 import (
-	"bytes"
 	"fmt"
 	"math/rand"
-	"net/http"
 	"strings"
 	"time"
 
@@ -35,22 +33,15 @@ func NewConsumer(jobHandler JobHandler) *Drift {
 }
 
 //NewPub will create new publisher
-func NewPub(nsqDHttpAddrs string) *Drift {
-	return &Drift{
-		jobHandler:    nil,
-		chanelHandler: make(map[string]JobHandler),
-		consumers:     make(map[string][]*nsq.Consumer),
-		pubAddrs:      strings.TrimPrefix(nsqDHttpAddrs, "http://"),
+func NewPub(nsqDTCPAddrs []string) *Drift {
+	for i := range nsqDTCPAddrs {
+		nsqDTCPAddrs[i] = strings.TrimPrefix(nsqDTCPAddrs[i], "http://")
 	}
-}
-
-//NewAdmin will create new admin model
-func NewAdmin(nsqDHttpAddrs string) *Drift {
 	return &Drift{
 		jobHandler:    nil,
 		chanelHandler: make(map[string]JobHandler),
 		consumers:     make(map[string][]*nsq.Consumer),
-		pubAddrs:      strings.TrimPrefix(nsqDHttpAddrs, "http://"),
+		pubAddrs:      nsqDTCPAddrs,
 	}
 }
 
@@ -87,8 +78,8 @@ func vAdmin(req aqua.Aide) (payload Admin, err error) {
 func vPublishReq(req aqua.Aide) (payload Publish, err error) {
 	req.LoadVars()
 	if err = lib.Unmarshal(req.Body, &payload); err == nil {
-		if payload.NsqDHTTPAddrs == "" {
-			err = lib.VError("Invalid nsqd address")
+		if len(payload.NsqDTCPAddrs) == 0 {
+			err = lib.VError("nsqd tcp address required")
 		}
 	}
 	return
@@ -107,29 +98,32 @@ func vKillConsumer(req aqua.Aide) (payload KillConsumer, err error) {
 
 //pPublishReq will process the publish request
 func pPublishReq(payload Publish) (data interface{}, err error) {
-	var (
-		b    []byte
-		req  *http.Request
-		resp *http.Response
-	)
-	if b, err = jsoniter.Marshal(payload.Data); err == nil {
-		payload.NsqDHTTPAddrs = strings.TrimPrefix(payload.NsqDHTTPAddrs, "http://")
-		URL := fmt.Sprintf("http://%v/pub?topic=%v", payload.NsqDHTTPAddrs, payload.Topic)
-		if req, err = http.NewRequest("POST",
-			URL, bytes.NewBuffer(b)); err == nil {
-			HTTPClient := &http.Client{}
-			if resp, err = HTTPClient.Do(req); err == nil {
-				defer resp.Body.Close()
-				data = resp.StatusCode
-			} else {
-				err = lib.BadReqError(err)
-			}
-		} else {
-			err = lib.BadReqError(err)
+	config := nsq.NewConfig()
+	config.UserAgent = fmt.Sprintf("drift/%s", nsq.VERSION)
+	producers := make(map[string]*nsq.Producer)
+	for _, addr := range payload.NsqDTCPAddrs {
+		var producer *nsq.Producer
+		if producer, err = nsq.NewProducer(addr, config); err != nil {
+			break
 		}
-	} else {
-		err = lib.BadReqError(err)
+		producers[addr] = producer
 	}
+	if err == nil {
+		for _, producer := range producers {
+			var b []byte
+			if b, err = jsoniter.Marshal(payload.Data); err == nil {
+				if err = producer.Publish(payload.Topic, b); err != nil {
+					break
+				}
+			} else {
+				break
+			}
+		}
+	}
+	for _, producer := range producers {
+		producer.Stop()
+	}
+	data = "DONE"
 	return
 }
 

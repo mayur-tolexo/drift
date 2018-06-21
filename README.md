@@ -80,7 +80,7 @@ Publish new request over http on any nsqd.
 *POST* localhost:1500/drift/v1/pub/request/
 ```
 {
-  "nsqd_http_address": "127.0.0.1:4151",
+  "nsqd_tcp_address": ["127.0.0.1:4150"],
   "topic": "elastic",
   "data": "This is a test over http"
 }

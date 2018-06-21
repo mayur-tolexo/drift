@@ -47,9 +47,9 @@ func (d *Drift) Start(port int) {
 //Publish will broadcast the data to the nsqd
 func (d *Drift) Publish(topic string, data interface{}) (resp interface{}, err error) {
 	payload := Publish{
-		NsqDHTTPAddrs: d.pubAddrs,
-		Topic:         topic,
-		Data:          data,
+		NsqDTCPAddrs: d.pubAddrs,
+		Topic:        topic,
+		Data:         data,
 	}
 	resp, err = pPublishReq(payload)
 	return
