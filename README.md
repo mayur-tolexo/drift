@@ -1,5 +1,7 @@
-<img align="right" src="https://user-images.githubusercontent.com/20511920/41496418-61a22e4c-715d-11e8-9456-3ef08a2af35d.png" width="50">
 
+[![Godocs](https://img.shields.io/badge/golang-documentation-blue.svg)](https://www.godoc.org/github.com/mayur-tolexo/drift)
+
+<img align="right" src="https://user-images.githubusercontent.com/20511920/41496418-61a22e4c-715d-11e8-9456-3ef08a2af35d.png" width="50">
 # drift 
 NSQ Producer/Consumer integration to drift your request smoothly.  
 Add/Kill consumer over http request on any topic.  
