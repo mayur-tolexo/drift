@@ -5,8 +5,7 @@
 # drift 
 NSQ Producer/Consumer integration to drift your request smoothly.  
 Add/Kill consumer over http request on any topic.  
-Publish new request over http on any nsqd.  
-[- DOCUMENTATION](https://www.godoc.org/github.com/mayur-tolexo/drift)
+Publish new request over http on any nsqd.
 
 
 
