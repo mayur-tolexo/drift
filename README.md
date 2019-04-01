@@ -1,5 +1,8 @@
 
 [![Godocs](https://img.shields.io/badge/golang-documentation-blue.svg)](https://www.godoc.org/github.com/mayur-tolexo/drift)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mayur-tolexo/drift)](https://goreportcard.com/report/github.com/mayur-tolexo/drift)
+[![Open Source Helpers](https://www.codetriage.com/mayur-tolexo/drift/badges/users.svg)](https://www.codetriage.com/mayur-tolexo/drift)
+[![Release](https://img.shields.io/github/release/mayur-tolexo/drift.svg?style=flat-square)](https://github.com/mayur-tolexo/drift/releases)
 
 <img align="right" src="https://user-images.githubusercontent.com/20511920/41496418-61a22e4c-715d-11e8-9456-3ef08a2af35d.png" width="50">
 # drift 
