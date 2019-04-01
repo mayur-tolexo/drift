@@ -1,8 +1,8 @@
 package drift
 
 import (
+	"github.com/mayur-tolexo/aqua"
 	nsq "github.com/nsqio/go-nsq"
-	"github.com/rightjoin/aqua"
 )
 
 //AddConstumer is the request format of add consumer api

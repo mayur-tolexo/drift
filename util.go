@@ -7,9 +7,9 @@ import (
 	"time"
 
 	jsoniter "github.com/json-iterator/go"
+	"github.com/mayur-tolexo/aqua"
 	"github.com/mayur-tolexo/drift/lib"
 	nsq "github.com/nsqio/go-nsq"
-	"github.com/rightjoin/aqua"
 )
 
 const (

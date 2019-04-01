@@ -1,6 +1,6 @@
 {
 	"ImportPath": "github.com/mayur-tolexo/drift",
-	"GoVersion": "go1.8",
+	"GoVersion": "go1.9",
 	"GodepVersion": "v80",
 	"Packages": [
 		"./..."
@@ -131,13 +131,17 @@
 		},
 		{
 			"ImportPath": "github.com/mattn/go-isatty",
-			"Comment": "v0.0.2",
-			"Rev": "fc9e8d8ef48496124e79ae0df75490096eccf6fe"
+			"Comment": "v0.0.4-6-g3fb116b",
+			"Rev": "3fb116b820352b7f0c281308a4d6250c22d94e27"
 		},
 		{
 			"ImportPath": "github.com/mattn/go-sqlite3",
 			"Comment": "v1.2.0-109-g144deb6",
 			"Rev": "144deb6596cd6dbb49158b3d6f6a0e742715f9a5"
+		},
+		{
+			"ImportPath": "github.com/mayur-tolexo/aqua",
+			"Rev": "4f510ccd0b36cd9f13fe2b264e7c665015e2e78f"
 		},
 		{
 			"ImportPath": "github.com/mgutz/ansi",
@@ -303,10 +307,6 @@
 			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
 		},
 		{
-			"ImportPath": "github.com/rightjoin/aqua",
-			"Rev": "00690abfcdc99943ee755b77479d9d5317365561"
-		},
-		{
 			"ImportPath": "github.com/serenize/snaker",
 			"Rev": "1c7f65329f6524115af8ca01ab604c00cddf5558"
 		},
@@ -326,11 +326,11 @@
 		},
 		{
 			"ImportPath": "github.com/tolexo/aero/conf",
-			"Rev": "7b5e8bd1070755e983256288f2143858d792a6f4"
+			"Rev": "a4598568b2e10be9c2cffb539ad8fa5218834096"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
-			"Rev": "b3756b4b77d7b13260a0a2ec658753cf48922eac"
+			"Rev": "adae6a3d119ae4890b46832a2e88a95adc62b8e7"
 		},
 		{
 			"ImportPath": "golang.org/x/sys/unix",
@@ -375,7 +375,8 @@
 		},
 		{
 			"ImportPath": "gopkg.in/yaml.v2",
-			"Rev": "3b4ad1db5b2a649883ff3782f5f9f6fb52be71af"
+			"Comment": "v2.2.1",
+			"Rev": "5420a8b6744d3b0345ab293f6fcba19c978f1183"
 		}
 	]
 }

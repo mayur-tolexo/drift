@@ -3,8 +3,8 @@ package drift
 import (
 	"strings"
 
+	"github.com/mayur-tolexo/aqua"
 	"github.com/mayur-tolexo/drift/lib"
-	"github.com/rightjoin/aqua"
 )
 
 //DS is the drift service

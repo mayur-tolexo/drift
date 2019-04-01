@@ -12,10 +12,10 @@ import (
 	"syscall"
 
 	jsoniter "github.com/json-iterator/go"
+	"github.com/mayur-tolexo/aqua"
 	"github.com/mayur-tolexo/drift/lib"
 	nsq "github.com/nsqio/go-nsq"
 	"github.com/nsqio/nsq/nsqadmin"
-	"github.com/rightjoin/aqua"
 )
 
 //AddTopicHandler will add a new handler with the given topic
