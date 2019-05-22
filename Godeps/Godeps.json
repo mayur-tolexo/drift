@@ -140,8 +140,36 @@
 			"Rev": "144deb6596cd6dbb49158b3d6f6a0e742715f9a5"
 		},
 		{
+			"ImportPath": "github.com/mayur-tolexo/aero/cache",
+			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+		},
+		{
+			"ImportPath": "github.com/mayur-tolexo/aero/db/cstr",
+			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+		},
+		{
+			"ImportPath": "github.com/mayur-tolexo/aero/db/orm",
+			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+		},
+		{
+			"ImportPath": "github.com/mayur-tolexo/aero/ds",
+			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+		},
+		{
+			"ImportPath": "github.com/mayur-tolexo/aero/engine",
+			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+		},
+		{
+			"ImportPath": "github.com/mayur-tolexo/aero/refl",
+			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+		},
+		{
+			"ImportPath": "github.com/mayur-tolexo/aero/str",
+			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+		},
+		{
 			"ImportPath": "github.com/mayur-tolexo/aqua",
-			"Rev": "4f510ccd0b36cd9f13fe2b264e7c665015e2e78f"
+			"Rev": "db038c4b3d44dd1554e52190b653b60844495f53"
 		},
 		{
 			"ImportPath": "github.com/mgutz/ansi",
@@ -271,19 +299,11 @@
 			"Rev": "9a5203b7a07166f217f5f8177d5b16177acad3b2"
 		},
 		{
-			"ImportPath": "github.com/rightjoin/aero/cache",
-			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
-		},
-		{
 			"ImportPath": "github.com/rightjoin/aero/conf",
 			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
 		},
 		{
 			"ImportPath": "github.com/rightjoin/aero/db/cstr",
-			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
-		},
-		{
-			"ImportPath": "github.com/rightjoin/aero/db/orm",
 			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
 		},
 		{
