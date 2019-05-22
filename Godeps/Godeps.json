@@ -141,31 +141,39 @@
 		},
 		{
 			"ImportPath": "github.com/mayur-tolexo/aero/cache",
-			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+			"Rev": "f290fde29961d49cd70fa924db62dc8e7bcacf05"
+		},
+		{
+			"ImportPath": "github.com/mayur-tolexo/aero/conf",
+			"Rev": "f290fde29961d49cd70fa924db62dc8e7bcacf05"
 		},
 		{
 			"ImportPath": "github.com/mayur-tolexo/aero/db/cstr",
-			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+			"Rev": "f290fde29961d49cd70fa924db62dc8e7bcacf05"
 		},
 		{
 			"ImportPath": "github.com/mayur-tolexo/aero/db/orm",
-			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+			"Rev": "f290fde29961d49cd70fa924db62dc8e7bcacf05"
 		},
 		{
 			"ImportPath": "github.com/mayur-tolexo/aero/ds",
-			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+			"Rev": "f290fde29961d49cd70fa924db62dc8e7bcacf05"
 		},
 		{
 			"ImportPath": "github.com/mayur-tolexo/aero/engine",
-			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+			"Rev": "f290fde29961d49cd70fa924db62dc8e7bcacf05"
+		},
+		{
+			"ImportPath": "github.com/mayur-tolexo/aero/key",
+			"Rev": "f290fde29961d49cd70fa924db62dc8e7bcacf05"
 		},
 		{
 			"ImportPath": "github.com/mayur-tolexo/aero/refl",
-			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+			"Rev": "f290fde29961d49cd70fa924db62dc8e7bcacf05"
 		},
 		{
 			"ImportPath": "github.com/mayur-tolexo/aero/str",
-			"Rev": "47a651892b94b3dde691f2e7e3d4e02117956ec7"
+			"Rev": "f290fde29961d49cd70fa924db62dc8e7bcacf05"
 		},
 		{
 			"ImportPath": "github.com/mayur-tolexo/aqua",
@@ -297,34 +305,6 @@
 		{
 			"ImportPath": "github.com/pquerna/ffjson/fflib/v1/internal",
 			"Rev": "9a5203b7a07166f217f5f8177d5b16177acad3b2"
-		},
-		{
-			"ImportPath": "github.com/rightjoin/aero/conf",
-			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
-		},
-		{
-			"ImportPath": "github.com/rightjoin/aero/db/cstr",
-			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
-		},
-		{
-			"ImportPath": "github.com/rightjoin/aero/ds",
-			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
-		},
-		{
-			"ImportPath": "github.com/rightjoin/aero/engine",
-			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
-		},
-		{
-			"ImportPath": "github.com/rightjoin/aero/key",
-			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
-		},
-		{
-			"ImportPath": "github.com/rightjoin/aero/refl",
-			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
-		},
-		{
-			"ImportPath": "github.com/rightjoin/aero/str",
-			"Rev": "83aa79b7b4d25463fe80f65274679ef48c8fb513"
 		},
 		{
 			"ImportPath": "github.com/serenize/snaker",
