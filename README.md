@@ -35,6 +35,7 @@ Publish new request over http on any nsqd.
 ```
 {
   "lookup_http_address": ["127.0.0.1:4161"],
+  "http_address":"localhost:4171",
   "user": ["drift-user"],
   "acl_http_header": "admin-user"
 }
