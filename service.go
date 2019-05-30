@@ -28,7 +28,7 @@ func (d *ds) AddConsumer(req aqua.Aide) (int, interface{}) {
 		err     error
 	)
 	if payload, err = vAddConsumer(req); err == nil {
-		data, err = d.drift.addConsumer(payload)
+		data, err = d.drift.AddConsumer(payload)
 	}
 	return lib.BuildResponse(data, err)
 }

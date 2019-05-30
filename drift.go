@@ -55,8 +55,8 @@ func (d *Drift) Publish(topic string, data interface{}) (resp interface{}, err e
 	return
 }
 
-//addConsumer will process add consumer request
-func (d *Drift) addConsumer(payload AddConstumer) (data interface{}, err error) {
+//AddConsumer will process add consumer request
+func (d *Drift) AddConsumer(payload AddConstumer) (data interface{}, err error) {
 	var c *nsq.Consumer
 	config := nsq.NewConfig()
 	config.MaxInFlight = lib.GetPriorityValue(200, payload.MaxInFlight).(int)
