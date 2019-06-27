@@ -32,6 +32,20 @@ func NewConsumer(jobHandler JobHandler) *Drift {
 	}
 }
 
+//StartAdmin will start admin
+func StartAdmin(lookupHTTPAddr []string, httpAddrs string) {
+	if httpAddrs == "" {
+		httpAddrs = defaultAdminAddrs
+	}
+	d := Drift{}
+	d.admin = dAdmin{
+		httpAddrs:      strings.TrimPrefix(httpAddrs, "http://"),
+		lookupHTTPAddr: lookupHTTPAddr,
+	}
+	fmt.Println("Starting started at " + httpAddrs)
+	d.admin.startAdmin()
+}
+
 //NewPub will create new publisher
 func NewPub(nsqDTCPAddrs []string) *Drift {
 	for i := range nsqDTCPAddrs {
