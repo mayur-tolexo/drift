@@ -43,6 +43,7 @@ func StartAdmin(lookupHTTPAddr []string, httpAddrs string) {
 		lookupHTTPAddr: lookupHTTPAddr,
 	}
 	fmt.Println("Starting started at " + httpAddrs)
+	go d.sysInterrupt()
 	d.admin.startAdmin()
 }
 
