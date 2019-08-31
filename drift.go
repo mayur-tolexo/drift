@@ -57,12 +57,7 @@ func (d *Drift) Publish(topic string, data interface{}) (resp interface{}, err e
 
 //AddConsumer will process add consumer request
 func (d *Drift) AddConsumer(payload AddConstumer) (data interface{}, err error) {
-	var c *nsq.Consumer
-	config := nsq.NewConfig()
-	config.MaxInFlight = lib.GetPriorityValue(200, payload.MaxInFlight).(int)
-	config.UserAgent = fmt.Sprintf("drift/%s", nsq.VERSION)
 	for i := range payload.Topic {
-
 		topic := payload.Topic[i].Topic
 		channel := getChannel(payload.Topic[i].Channel)
 		n := lib.GetPriorityValue(payload.Topic[i].Count, 1).(int)
@@ -71,6 +66,12 @@ func (d *Drift) AddConsumer(payload AddConstumer) (data interface{}, err error) 
 			continue
 		}
 		for j := 0; j < n; j++ {
+
+			var c *nsq.Consumer
+			config := nsq.NewConfig()
+			config.MaxInFlight = lib.GetPriorityValue(payload.MaxInFlight, 1).(int)
+			config.UserAgent = fmt.Sprintf("drift/%s-%v", nsq.VERSION, j+1)
+
 			if c, err = nsq.NewConsumer(topic, channel, config); err == nil {
 				fmt.Println("Adding consumer for topic:", topic)
 				c.AddHandler(&tailHandler{topicName: topic, jobHandler: handler})
