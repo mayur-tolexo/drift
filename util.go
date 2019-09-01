@@ -114,7 +114,7 @@ func vKillConsumer(req aqua.Aide) (payload KillConsumer, err error) {
 }
 
 //pPublishReq will process the publish request
-func pPublishReq(payload Publish) (data interface{}, err error) {
+func pPublishReq(d *Drift, payload Publish) (data interface{}, err error) {
 	config := nsq.NewConfig()
 	config.UserAgent = fmt.Sprintf("drift/%s", nsq.VERSION)
 	producers := make(map[string]*nsq.Producer)
@@ -123,7 +123,11 @@ func pPublishReq(payload Publish) (data interface{}, err error) {
 		if producer, err = nsq.NewProducer(addr, config); err != nil {
 			break
 		}
-		producer.SetLogger(log.New(os.Stderr, "", log.Flags()), nsq.LogLevelError)
+		logger := log.New(os.Stderr, "", log.Flags())
+		if d.logger != nil {
+			logger = d.logger
+		}
+		producer.SetLogger(logger, d.getNsqLogLevel())
 		producers[addr] = producer
 	}
 	if err == nil {
@@ -142,6 +146,20 @@ func pPublishReq(payload Publish) (data interface{}, err error) {
 		producer.Stop()
 	}
 	data = "DONE"
+	return
+}
+
+func (d *Drift) getNsqLogLevel() (lvl nsq.LogLevel) {
+	switch d.logLevel {
+	case LogLevelInfo:
+		lvl = nsq.LogLevelInfo
+	case LogLevelWarning:
+		lvl = nsq.LogLevelWarning
+	case LogLevelError:
+		lvl = nsq.LogLevelError
+	default:
+		lvl = nsq.LogLevelDebug
+	}
 	return
 }
 

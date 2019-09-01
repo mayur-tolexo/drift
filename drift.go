@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -16,6 +17,17 @@ import (
 	"github.com/mayur-tolexo/drift/lib"
 	nsq "github.com/nsqio/go-nsq"
 	"github.com/nsqio/nsq/nsqadmin"
+)
+
+// LogLevel specifies the severity of a given log message
+type LogLevel int
+
+// Log levels
+const (
+	LogLevelDebug LogLevel = iota
+	LogLevelInfo
+	LogLevelWarning
+	LogLevelError
 )
 
 //AddTopicHandler will add a new handler with the given topic
@@ -51,7 +63,7 @@ func (d *Drift) Publish(topic string, data interface{}) (resp interface{}, err e
 		Topic:        topic,
 		Data:         data,
 	}
-	resp, err = pPublishReq(payload)
+	resp, err = pPublishReq(d, payload)
 	return
 }
 
@@ -269,4 +281,10 @@ func (d *dAdmin) doAction(payload Admin, aclValue string) (data interface{}, err
 		err = lib.BadReqError(err)
 	}
 	return
+}
+
+//SetLogger logger
+func (d *Drift) SetLogger(l *log.Logger, lvl LogLevel) {
+	d.logger = l
+	d.logLevel = lvl
 }

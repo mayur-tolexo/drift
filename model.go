@@ -1,6 +1,8 @@
 package drift
 
 import (
+	"log"
+
 	"github.com/mayur-tolexo/aqua"
 	nsq "github.com/nsqio/go-nsq"
 )
@@ -70,6 +72,8 @@ type Drift struct {
 	consumers     map[string][]*nsq.Consumer
 	pubAddrs      []string
 	admin         dAdmin
+	logger        *log.Logger
+	logLevel      LogLevel
 }
 
 //dAdmin have the drift admin model

@@ -41,7 +41,7 @@ func (d *ds) PublishReq(req aqua.Aide) (int, interface{}) {
 		err     error
 	)
 	if payload, err = vPublishReq(req); err == nil {
-		data, err = pPublishReq(payload)
+		data, err = pPublishReq(d.drift, payload)
 	}
 	return lib.BuildResponse(data, err)
 }
