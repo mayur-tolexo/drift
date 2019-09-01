@@ -2,7 +2,9 @@ package drift
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
+	"os"
 	"strings"
 	"time"
 
@@ -121,6 +123,7 @@ func pPublishReq(payload Publish) (data interface{}, err error) {
 		if producer, err = nsq.NewProducer(addr, config); err != nil {
 			break
 		}
+		producer.SetLogger(log.New(os.Stderr, "", log.Flags()), nsq.LogLevelError)
 		producers[addr] = producer
 	}
 	if err == nil {
