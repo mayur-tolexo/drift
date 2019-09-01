@@ -96,6 +96,13 @@ func (d *Drift) AddConsumer(payload AddConstumer) (data interface{}, err error) 
 					break
 				}
 				key := hash(topic, channel)
+
+				logger := log.New(os.Stderr, "", log.Flags())
+				if d.logger != nil {
+					logger = d.logger
+				}
+				c.SetLogger(logger, d.getNsqLogLevel())
+
 				d.consumers[key] = append(d.consumers[key], c)
 				data = "DONE"
 			} else {
